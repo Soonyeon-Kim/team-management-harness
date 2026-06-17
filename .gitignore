@@ -1,0 +1,5 @@
+# 팀원 개인정보 데이터 — 로컬 전용 (커밋 금지)
+team-data/
+
+# Claude Code 로컬 설정
+.claude/settings.local.json
