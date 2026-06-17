@@ -15,3 +15,4 @@
 | 2026-06-17 | 실제 팀장 체크리스트(자격증·휴가·역량 3축) 반영: certification-manager 신규, leave/growth 스킬 보강, checklist.md 작성, task-tracker 보조 전환 | agents/certification-manager, skills/certification-management·leave-management·growth-coaching·checklist-setup·team-management·team-data-store, team-data/checklist.md | 팀장 보유 체크리스트 제공 |
 | 2026-06-17 | 휴가비 신청 자격 규칙 추가(연차 10일 초과 사용 시에만 신청 가능) | skills/leave-management·team-data-store, agents/leave-manager | 사내 휴가비 규정 |
 | 2026-06-17 | 휴가 종류(연차/보상/경조사/출산/육아휴직/기타)·단위(연차1·반차0.5·반반차0.25) 모델 추가, 연차휴가만 used 차감 | skills/leave-management·team-data-store, agents/leave-manager | 휴가 종류별 연차 차감 규정 |
+| 2026-06-17 | assignment-manager(프로젝트 투입/가동률) 신규: assignments 데이터·스킬·에이전트 추가, leave/growth가 프로젝트 일정·역량 매칭에 참조, 체크리스트 프로젝트 항목 연결 | agents/assignment-manager, skills/assignment-tracking·team-data-store·leave-management·growth-coaching·team-management, team-data/checklist.md | 컨설팅 팀 프로젝트 투입 이력 관리 필요(팀장 지적) |

@@ -25,6 +25,8 @@ team-data/
 ├── certifications/
 │   ├── certs.json          # 전체 자격증 배열
 │   └── team-goals.md       # 팀 차원 자격증 목표·파트너십 혜택
+├── assignments/
+│   └── assignments.json    # 프로젝트 투입 이력 배열
 ├── tasks/
 │   └── tasks.json          # 전체 업무 배열 (보조 도구, 체크리스트 외)
 └── leave/
@@ -32,13 +34,13 @@ team-data/
     └── balances.json       # 팀원별 연차 잔여·누적률·휴가비
 ```
 
-저장소가 없으면(최초 실행) 디렉토리와 빈 `tasks.json`(`{"tasks": []}`), `leave.json`(`{"leave": []}`), `certs.json`(`{"certs": []}`), `balances.json`(`{"year": <올해>, "balances": []}`)을 생성한다.
+저장소가 없으면(최초 실행) 디렉토리와 빈 `tasks.json`(`{"tasks": []}`), `leave.json`(`{"leave": []}`), `certs.json`(`{"certs": []}`), `balances.json`(`{"year": <올해>, "balances": []}`), `assignments.json`(`{"assignments": []}`)을 생성한다.
 
 ## 공통 규약
 
 - **slug**: 팀원의 영문 소문자 kebab-case 식별자(예: `cheolsu-kim`). 한 번 정하면 바꾸지 않는다. 모든 파일·JSON에서 팀원 참조는 이 slug로 한다. 표시용 한글 이름은 프로필 `name`에 둔다.
 - **날짜**: 항상 `YYYY-MM-DD` (ISO). 세션의 현재 날짜를 사용한다.
-- **ID**: 업무 `T-{3자리}`, 휴가 `L-{3자리}`, 자격증 `C-{3자리}`. 기존 최대값+1로 부여한다.
+- **ID**: 업무 `T-{3자리}`, 휴가 `L-{3자리}`, 자격증 `C-{3자리}`, 프로젝트 투입 `A-{3자리}`. 기존 최대값+1로 부여한다.
 - **쓰기 안전**: 파일을 수정할 때는 먼저 읽고(read-modify-write), 기존 필드를 보존한다. 전체 덮어쓰기로 다른 필드를 날리지 마라. 이유: 여러 전문가가 같은 파일을 시점 차로 건드린다.
 - **삭제 금지 원칙**: 상충/오래된 데이터라도 임의 삭제하지 않는다. `status`로 표시하거나 별도 메모로 남긴다. 이유: 감사 추적과 복구 가능성.
 
@@ -204,6 +206,29 @@ updated: 2026-06-17
 ## 활용 가능한 파트너십 혜택 (벤더 — 혜택 — 활용 방안)
 ## 교육 세션 / 환급 정책 메모
 ```
+
+### assignments/assignments.json (프로젝트 투입 이력)
+```json
+{
+  "assignments": [
+    {
+      "id": "A-001",
+      "member": "soonyeon-kim",
+      "project": "○○ 고객사 Salesforce 구축",
+      "client": "○○",
+      "role": "데이터 컨설턴트",
+      "allocation": 100,        // 투입률(%) — 가동률 집계 기준
+      "start": "2026-04-01",
+      "end": null,              // null = 진행 중
+      "status": "active",       // planned | active | ended
+      "notes": "프로젝트 중 발견된 역량 갭·특이사항"
+    }
+  ]
+}
+```
+- `status`: `planned`(예정) | `active`(진행 중) | `ended`(종료). 종료 시 `end`를 채우고 `status`를 `ended`로.
+- **가동률** = 한 팀원의 `status == active` 투입들의 `allocation` 합. 100% 초과면 과투입 신호.
+- `member`는 `members/`에 존재하는 slug여야 한다. 종료된 투입도 삭제하지 않고 `ended`로 보존(이력·역량 매칭 근거).
 
 ### team.md
 ```markdown

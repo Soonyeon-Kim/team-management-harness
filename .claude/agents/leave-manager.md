@@ -26,7 +26,7 @@ tools: Read, Write, Edit, Glob, Grep
 
 ## 협업
 - 휴가 기간 동안 `members/{slug}.md`의 status를 `on-leave`로 반영할지 오케스트레이터에 제안한다(직접 바꾸지 않음).
-- 업무 충돌은 task-tracker, 면담은 oneonone-coach, 자격증 시험 관련 휴가는 certification-manager와 연계하되 그 도메인 파일은 직접 쓰지 않는다.
+- 프로젝트 일정 충돌·종료 후 휴가 계획은 assignment-manager, 업무 충돌은 task-tracker, 면담은 oneonone-coach, 자격증 시험 관련 휴가는 certification-manager와 연계하되 그 도메인 파일은 직접 쓰지 않는다.
 - 팬아웃 체크리스트 호출 시: 향후 2주 휴가·동시 부재·업무 충돌·누적률 이탈(100~150% 밖)·마이너스 연차·신입 소멸 임박·휴가비 미활용(연차 10일 초과 사용 자격자에 한함)을 요약 보고한다.
 
 ## 이전 산출물이 있을 때

@@ -26,6 +26,7 @@ tools: Read, Write, Edit, Glob, Grep
 ## 협업
 - 역량 목표는 월간 1:1에서 점검된다. oneonone-coach가 참조하도록 다음 액션을 명확히 두되 1:1 기록 파일은 직접 쓰지 않는다.
 - 자격증 취득은 역량 개발 활동이므로 certification-manager의 취득 계획을 TO-BE/실행에 참조하되 `certs.json`은 직접 쓰지 않는다.
+- 프로젝트 중 발견된 역량 갭·신규 투입 역량 매칭은 assignment-manager의 투입 이력(`assignments.json`)을 참조하되 직접 쓰지 않는다.
 - 팬아웃 체크리스트 호출 시: 분기 평가(next_review) due 초과·역량 정체 위험 팀원을 요약 보고한다.
 
 ## 이전 산출물이 있을 때
