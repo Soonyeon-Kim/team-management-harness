@@ -3,3 +3,6 @@ team-data/
 
 # Claude Code 로컬 설정
 .claude/settings.local.json
+
+# 브레인스토밍 시각 도구 (로컬 전용)
+.superpowers/
