@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<!--
+  이 파일은 템플릿이다. exec-report-web 스킬이 {{토큰}}을 실제 값으로 치환하고
+  <!-- REPEAT_START:x --> ~ <!-- REPEAT_END:x --> 블록을 항목 수만큼 복제한 뒤
+  team-data/_reports/{YYYY-MM-DD}-exec-report.html 로 저장한다.
+  자체완결 규칙: 외부 CDN/스크립트/폰트/이미지 URL을 추가하지 마라. 모든 스타일은 인라인 <style>,
+  차트는 순수 CSS 막대(div width %)만 사용한다(오프라인·사내망에서 그대로 열린다).
+-->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TEAM_NAME}} 팀 현황 보고 — {{REPORT_DATE}}</title>
+<style>
+  :root{
+    --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --bg:#f1f5f9; --card:#ffffff;
+    --accent:#2563eb; --ok:#16a34a; --warn:#d97706; --bad:#dc2626;
+    --ok-bg:#f0fdf4; --warn-bg:#fffbeb; --bad-bg:#fef2f2; --accent-bg:#eff6ff;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Malgun Gothic","맑은 고딕",-apple-system,"Segoe UI",Roboto,sans-serif;
+    line-height:1.55; font-size:14px;
+  }
+  .page{max-width:980px; margin:24px auto; padding:0 16px;}
+  /* 헤더 */
+  header.report{
+    background:var(--ink); color:#fff; border-radius:14px;
+    padding:24px 28px; display:flex; justify-content:space-between; align-items:flex-end; gap:16px;
+  }
+  header.report h1{margin:0 0 6px; font-size:22px; letter-spacing:-.3px;}
+  header.report .sub{color:#cbd5e1; font-size:13px;}
+  .badge{
+    background:#1e293b; border:1px solid #334155; color:#e2e8f0;
+    padding:5px 12px; border-radius:999px; font-size:12px; white-space:nowrap;
+  }
+  /* 섹션 공통 */
+  section{margin-top:22px;}
+  h2.sec{font-size:15px; margin:0 0 12px; display:flex; align-items:center; gap:8px;}
+  h2.sec::before{content:""; width:4px; height:16px; background:var(--accent); border-radius:2px;}
+  /* KPI 카드 */
+  .kpi-row{display:grid; grid-template-columns:repeat(5,1fr); gap:12px;}
+  .kpi{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px;}
+  .kpi .label{font-size:12px; color:var(--muted); margin-bottom:6px;}
+  .kpi .value{font-size:26px; font-weight:700; letter-spacing:-.5px;}
+  .kpi .note{font-size:12px; color:var(--muted); margin-top:4px;}
+  .kpi.ok{border-left:4px solid var(--ok);} .kpi.warn{border-left:4px solid var(--warn);} .kpi.bad{border-left:4px solid var(--bad);}
+  /* 위험 신호 */
+  .risk{display:flex; gap:12px; padding:12px 14px; border-radius:10px; border:1px solid var(--line); margin-bottom:8px; background:var(--card);}
+  .risk .ico{font-size:18px; line-height:1.3;}
+  .risk .body{flex:1;}
+  .risk .title{font-weight:600;}
+  .risk .detail{font-size:13px; color:var(--muted); margin-top:2px;}
+  .risk.sev-high{background:var(--bad-bg); border-color:#fecaca;}
+  .risk.sev-mid{background:var(--warn-bg); border-color:#fde68a;}
+  .risk.sev-low{background:var(--accent-bg); border-color:#bfdbfe;}
+  .empty{color:var(--muted); font-size:13px; padding:10px 0;}
+  /* 팀원 현황 테이블 */
+  .table-wrap{overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--card);}
+  table{border-collapse:collapse; width:100%; min-width:680px; font-size:13px;}
+  th,td{padding:10px 12px; text-align:left; border-bottom:1px solid var(--line); vertical-align:middle;}
+  th{background:#f8fafc; color:var(--muted); font-weight:600; font-size:12px;}
+  tr:last-child td{border-bottom:none;}
+  .bar{position:relative; height:8px; background:var(--line); border-radius:999px; overflow:hidden; min-width:90px;}
+  .bar > span{position:absolute; left:0; top:0; bottom:0; border-radius:999px; background:var(--accent);}
+  .bar.ok > span{background:var(--ok);} .bar.warn > span{background:var(--warn);} .bar.bad > span{background:var(--bad);}
+  .barlabel{font-size:12px; color:var(--muted); margin-top:3px;}
+  /* 영역별 요약 */
+  .areas{display:grid; grid-template-columns:repeat(2,1fr); gap:14px;}
+  .area{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px;}
+  .area h3{margin:0 0 8px; font-size:14px;}
+  .area ul{margin:0; padding-left:18px;} .area li{margin:3px 0; font-size:13px;}
+  /* 푸터 */
+  footer.report{margin-top:26px; padding-top:14px; border-top:1px solid var(--line); color:var(--muted); font-size:12px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+  /* 반응형 */
+  @media (max-width:760px){ .kpi-row{grid-template-columns:repeat(2,1fr);} .areas{grid-template-columns:1fr;} header.report{flex-direction:column; align-items:flex-start;} }
+  /* 인쇄(PDF) */
+  @media print{
+    body{background:#fff;} .page{margin:0; max-width:none;}
+    header.report,.kpi,.risk,.area,.table-wrap{box-shadow:none;}
+    section,.area,.risk,tr{break-inside:avoid;}
+    header.report{background:#0f172a !important; -webkit-print-color-adjust:exact; print-color-adjust:exact;}
+    .kpi,.risk,.bar > span{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+    @page{margin:14mm;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="report">
+    <div>
+      <h1>{{TEAM_NAME}} 팀 현황 보고</h1>
+      <div class="sub">팀장 {{TEAM_LEAD}} · 보고 기준일 {{REPORT_DATE}}</div>
+    </div>
+    <span class="badge">🔒 내부 보고용</span>
+  </header>
+
+  <!-- ① 핵심 KPI -->
+  <section>
+    <h2 class="sec">핵심 지표</h2>
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="label">팀 인원 (active)</div>
+        <div class="value">{{KPI_HEADCOUNT_VALUE}}</div>
+        <div class="note">{{KPI_HEADCOUNT_NOTE}}</div>
+      </div>
+      <div class="kpi {{KPI_UTIL_STATUS}}">
+        <div class="label">가동률 (YTD)</div>
+        <div class="value">{{KPI_UTIL_VALUE}}</div>
+        <div class="note">{{KPI_UTIL_NOTE}}</div>
+      </div>
+      <div class="kpi {{KPI_LEAVE_STATUS}}">
+        <div class="label">평균 연차 누적률</div>
+        <div class="value">{{KPI_LEAVE_VALUE}}</div>
+        <div class="note">{{KPI_LEAVE_NOTE}}</div>
+      </div>
+      <div class="kpi">
+        <div class="label">자격증 (보유/목표)</div>
+        <div class="value">{{KPI_CERT_VALUE}}</div>
+        <div class="note">{{KPI_CERT_NOTE}}</div>
+      </div>
+      <div class="kpi {{KPI_1ON1_STATUS}}">
+        <div class="label">1:1 주기</div>
+        <div class="value">{{KPI_1ON1_VALUE}}</div>
+        <div class="note">{{KPI_1ON1_NOTE}}</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ② 핵심 위험 신호 (Top 3~5) -->
+  <section>
+    <h2 class="sec">핵심 위험 신호</h2>
+    <!-- 위험이 없으면 아래 REPEAT 블록 전체를 <div class="empty">현재 우선 조치가 필요한 위험 신호가 없습니다.</div> 로 교체 -->
+    <!-- REPEAT_START:risk -->
+    <div class="risk {{RISK_SEV_CLASS}}">
+      <div class="ico">{{RISK_ICON}}</div>
+      <div class="body">
+        <div class="title">{{RISK_TITLE}}</div>
+        <div class="detail">{{RISK_DETAIL}}</div>
+      </div>
+    </div>
+    <!-- REPEAT_END:risk -->
+  </section>
+
+  <!-- ③ 팀원 현황 한눈에 -->
+  <section>
+    <h2 class="sec">팀원 현황</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>팀원</th><th>가동률</th><th>연차(잔여/누적률)</th><th>자격증</th><th>최근 1:1</th><th>역량 평가</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- REPEAT_START:member -->
+          <tr>
+            <td><strong>{{M_NAME}}</strong><br><span class="barlabel">{{M_ROLE}}</span></td>
+            <td><div class="bar {{M_UTIL_BARCLASS}}"><span style="width:{{M_UTIL_PCT}}%"></span></div><div class="barlabel">{{M_UTIL_LABEL}}</div></td>
+            <td><div class="bar {{M_LEAVE_BARCLASS}}"><span style="width:{{M_LEAVE_PCT}}%"></span></div><div class="barlabel">{{M_LEAVE_LABEL}}</div></td>
+            <td>{{M_CERT}}</td>
+            <td>{{M_LASTONE}}</td>
+            <td>{{M_GROWTH}}</td>
+          </tr>
+          <!-- REPEAT_END:member -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ④ 영역별 요약 -->
+  <section>
+    <h2 class="sec">영역별 요약</h2>
+    <div class="areas">
+      <div class="area"><h3>🗂️ 프로젝트 투입 · 가동률</h3><ul>{{AREA_ASSIGN_LIST}}</ul></div>
+      <div class="area"><h3>🏖️ 휴가 · 연차</h3><ul>{{AREA_LEAVE_LIST}}</ul></div>
+      <div class="area"><h3>📜 자격증</h3><ul>{{AREA_CERT_LIST}}</ul></div>
+      <div class="area"><h3>📈 역량 (AS-IS⇒TO-BE)</h3><ul>{{AREA_GROWTH_LIST}}</ul></div>
+      <div class="area"><h3>🤝 1:1 미팅</h3><ul>{{AREA_1ON1_LIST}}</ul></div>
+    </div>
+  </section>
+
+  <footer class="report">
+    <span>생성: {{GENERATED_AT}} · 데이터 출처: team-data/ (파일 기반)</span>
+    <span>meta_harness 팀원 관리툴 · 자동 생성 스냅샷</span>
+  </footer>
+
+</div>
+</body>
+</html>

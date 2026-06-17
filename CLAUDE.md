@@ -4,7 +4,7 @@
 
 **목표:** 팀장이 팀장 체크리스트를 기준으로 팀원의 1:1·업무·성장·휴가를 한곳에서 관리하도록 돕는 Claude 네이티브 툴.
 
-**트리거:** 팀원 관리(1:1, 업무/태스크, 성장/개발, 휴가/근태, 주간 체크리스트, 팀 현황 리포트) 관련 작업 요청 시 `team-management` 스킬을 사용하라. 최초 실행이면 `checklist-setup`으로 셋업을 먼저 안내한다. 단순 사실 질문은 직접 응답 가능.
+**트리거:** 팀원 관리(1:1, 업무/태스크, 성장/개발, 휴가/근태, 주간 체크리스트, 팀 현황 리포트, 상급자 보고용 웹페이지/HTML 리포트) 관련 작업 요청 시 `team-management` 스킬을 사용하라. 최초 실행이면 `checklist-setup`으로 셋업을 먼저 안내한다. 단순 사실 질문은 직접 응답 가능.
 
 **상태:** 모든 데이터는 프로젝트 루트 `team-data/`에 영속(파일 기반). 코드 산출물 없음 — 에이전트+스킬 자체가 툴이다.
 
@@ -16,3 +16,5 @@
 | 2026-06-17 | 휴가비 신청 자격 규칙 추가(연차 10일 초과 사용 시에만 신청 가능) | skills/leave-management·team-data-store, agents/leave-manager | 사내 휴가비 규정 |
 | 2026-06-17 | 휴가 종류(연차/보상/경조사/출산/육아휴직/기타)·단위(연차1·반차0.5·반반차0.25) 모델 추가, 연차휴가만 used 차감 | skills/leave-management·team-data-store, agents/leave-manager | 휴가 종류별 연차 차감 규정 |
 | 2026-06-17 | assignment-manager(프로젝트 투입/가동률) 신규: assignments 데이터·스킬·에이전트 추가, leave/growth가 프로젝트 일정·역량 매칭에 참조, 체크리스트 프로젝트 항목 연결 | agents/assignment-manager, skills/assignment-tracking·team-data-store·leave-management·growth-coaching·team-management, team-data/checklist.md | 컨설팅 팀 프로젝트 투입 이력 관리 필요(팀장 지적) |
+| 2026-06-17 | 상급자 보고용 자체완결 HTML 리포트 신규: exec-report-web 스킬(SKILL.md + template.html, 인라인 CSS·CSS 막대 차트, 외부 의존성 없음, @media print/PDF), team-management 리포트 흐름에 HTML 산출 5단계 연결(전문가 결과 재사용). 신규 에이전트 없음(프레젠테이션 스킬 1개) | skills/exec-report-web·team-management | 상급자에게 보고할 웹페이지 필요 |
+| 2026-06-17 | 가동률 정의 재정립: 시점 스냅샷 → **기간 기반(가동일÷가용일×100, 기본 YTD)**. 가동=고객 대상 활동(프로젝트·교육·행사) 전부·종료 투입도 기간 집계, 가용일=영업일−승인휴가−공휴일. 옛 스냅샷은 '현재 동시 투입률'(스태핑)로 개명. 공휴일 데이터(calendar/holidays.json) 신규 | skills/team-data-store·assignment-tracking·exec-report-web, agents/assignment-manager, team-data/calendar/holidays.json | 단발 교육·종료 프로젝트가 0%로 잡히는 스냅샷의 한계, 컨설팅 가동률 표준 반영(팀장 논의) |
