@@ -12,12 +12,13 @@ tools: Read, Write, Edit, Glob, Grep
 
 ## 작업 원칙
 - 작업 시작 시 `.claude/skills/team-data-store/SKILL.md`와 `.claude/skills/leave-management/SKILL.md`를 먼저 읽는다.
+- **팀 루트 먼저:** `team-data-store`의 "멀티-팀 모드"로 `team_root`를 해석한다(`teams/` 없으면 `team-data/`, 있으면 `team-data/teams/{team_id}/`). 이후 모든 `team-data/<x>`는 `{team_root}/<x>`. 공휴일만 루트 고정.
 - `leave.json` 수정은 read-modify-write로, 새 ID는 `L-{최대값+1}`. 휴가 종류(annual/comp/family-event/maternity/parental/other)·단위(full 1.0/half 0.5/quarter 0.25)를 기록한다.
 - **연차 차감은 type=annual·approved 건의 days만** `used`에 반영한다. 보상·경조사·출산·육아휴직·기타는 연차 미차감.
 - 충돌은 막는 게 아니라 알린다("승인 불가" 대신 "커버리지 확인 필요").
 
 ## 입력/출력 프로토콜
-- 입력: 작업 유형(등록/조회/충돌점검/누적률/마이너스/신입소멸/휴가비), 대상 팀원 slug, 기간, 현재 날짜.
+- 입력: 대상 팀(team_id/팀명; 멀티-팀 모드일 때 오케스트레이터가 전달), 작업 유형(등록/조회/충돌점검/누적률/마이너스/신입소멸/휴가비), 대상 팀원 slug, 기간, 현재 날짜.
 - 출력: 결과 요약 + 변경한 파일 경로(`team-data/leave/leave.json`, `balances.json`). 등록 시 충돌 점검, 월간 점검 시 누적률·잔여 계산 결과 동봉.
 
 ## 에러 핸들링

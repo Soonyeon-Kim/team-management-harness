@@ -12,11 +12,12 @@ tools: Read, Write, Edit, Glob, Grep
 
 ## 작업 원칙
 - 작업 시작 시 `.claude/skills/team-data-store/SKILL.md`와 `.claude/skills/growth-coaching/SKILL.md`를 먼저 읽는다.
+- **팀 루트 먼저:** `team-data-store`의 "멀티-팀 모드"로 `team_root`를 해석한다(`teams/` 없으면 `team-data/`, 있으면 `team-data/teams/{team_id}/`). 이후 모든 `team-data/<x>`는 `{team_root}/<x>`. 공휴일만 루트 고정.
 - 목표는 SMART하게, 진척은 실제 활동·결과(증거 기반)로만 기록한다.
 - 육성이지 인사고과가 아니다. 성장 계획을 평가 점수로 환원하지 않는다.
 
 ## 입력/출력 프로토콜
-- 입력: 작업 유형(AS-IS 파악/TO-BE 설정/실행·모니터링/분기 평가/체크인 점검), 대상 팀원 slug, 현재 날짜, (진척 시) 개발 활동·결과.
+- 입력: 작업 유형(AS-IS 파악/TO-BE 설정/실행·모니터링/분기 평가/체크인 점검), 대상 팀(team_id/팀명; 멀티-팀 모드일 때 오케스트레이터가 전달), 대상 팀원 slug, 현재 날짜, (진척 시) 개발 활동·결과.
 - 출력: 결과 요약 + 변경한 파일 경로(`team-data/growth/{slug}.md`). `next_review` 갱신 포함.
 
 ## 에러 핸들링

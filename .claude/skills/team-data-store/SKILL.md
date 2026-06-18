@@ -38,6 +38,34 @@ team-data/
 
 저장소가 없으면(최초 실행) 디렉토리와 빈 `tasks.json`(`{"tasks": []}`), `leave.json`(`{"leave": []}`), `certs.json`(`{"certs": []}`), `balances.json`(`{"year": <올해>, "balances": []}`), `assignments.json`(`{"assignments": []}`)을 생성한다.
 
+## 멀티-팀 모드 (팀 루트 해석) — 모든 읽기/쓰기 전에 먼저 확인
+
+이 저장소는 **단일 팀**과 **여러 동격 팀**을 모두 담는다. 데이터 접근 전에 **"팀 루트(`team_root`)"를 먼저 해석**하라.
+
+```
+team-data/
+├── teams/                      # 이 디렉토리가 있으면 = 멀티-팀 모드
+│   ├── ds/                     # team-id (슬러그) — 한 팀의 데이터 루트
+│   │   ├── team.md  checklist.md
+│   │   ├── members/  oneonones/  growth/
+│   │   ├── certifications/  leave/  assignments/  tasks/
+│   │   └── ...                 # (위 "디렉토리 레이아웃"과 동일 구조)
+│   └── ai/  ...
+├── calendar/holidays.json      # 전사 공통 (항상 루트, 팀 밖)
+├── checklist.md                # 조직 기본 체크리스트 (팀별 override 없을 때 fallback)
+└── _reports/                   # 산출물 (팀별: _reports/<team-id>/, 조직요약: _reports/...-org-summary.html)
+```
+
+**해석 규칙 (협상 불가):**
+1. `team-data/teams/`가 **없으면** → **레거시 단일-팀 모드**: `team_root = team-data/` (기존과 동일, 하위 호환).
+2. `team-data/teams/`가 **있으면** → **멀티-팀 모드**: `team_root = team-data/teams/{team_id}/`. `team_id`는 호출자(오케스트레이터)가 전달한다. 팀이 1개뿐이면 그 팀을 자동 선택.
+3. 아래 "디렉토리 레이아웃"·"스키마"의 모든 경로는 **`team_root` 기준 상대 경로**다. 예: `leave.json` → `{team_root}/leave/leave.json`, `members/{slug}.md` → `{team_root}/members/{slug}.md`.
+4. **전사 공통(항상 루트, `team_root` 아님):** `calendar/holidays.json`(공휴일은 모든 팀 공유).
+5. **체크리스트 해석:** `{team_root}/checklist.md`가 있으면 그 팀 것을 쓰고, 없으면 루트 `team-data/checklist.md`(조직 기본값)로 fallback. (동격 팀은 팀장이 달라 체크리스트가 다를 수 있다.)
+6. **team-id 슬러그:** 영문 소문자 kebab(`ds`, `ai`). `team.md`의 `team`(표시명)·`lead`와 연결. **slug(팀원)는 팀 내에서만 유일**하면 된다(전사 유일 아님) — 같은 이름이 다른 팀에 있어도 팀 루트가 다르므로 충돌하지 않는다.
+
+> 마이그레이션: 레거시(루트 직속) 데이터를 멀티-팀으로 올릴 때는 도메인 폴더(`members/ leave/ certifications/ assignments/ growth/ oneonones/ tasks/`)와 `team.md`·`checklist.md`를 통째로 `teams/<id>/`로 옮긴다. `calendar/`·`_reports/`는 루트에 남긴다.
+
 ## 공통 규약
 
 - **slug**: 팀원의 영문 소문자 kebab-case 식별자(예: `cheolsu-kim`). 한 번 정하면 바꾸지 않는다. 모든 파일·JSON에서 팀원 참조는 이 slug로 한다. 표시용 한글 이름은 프로필 `name`에 둔다.

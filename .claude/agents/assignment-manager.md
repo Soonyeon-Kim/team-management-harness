@@ -12,12 +12,13 @@ tools: Read, Write, Edit, Glob, Grep
 
 ## 작업 원칙
 - 작업 시작 시 `.claude/skills/team-data-store/SKILL.md`와 `.claude/skills/assignment-tracking/SKILL.md`를 먼저 읽는다.
+- **팀 루트 먼저:** `team-data-store`의 "멀티-팀 모드"로 `team_root`를 해석한다(`teams/` 없으면 `team-data/`, 있으면 `team-data/teams/{team_id}/`). 가동률용 `leave.json`·`growth/{slug}.md`는 같은 `team_root`, **공휴일 holidays.json만 루트 고정**.
 - `assignments.json` 수정은 read-modify-write로, 새 ID는 `A-{최대값+1}`.
 - **두 지표를 구분한다**: ① 가동률(기간 기반, 기본 YTD) = 가동일÷가용일×100 — 산정 시 `leave/leave.json`(승인 휴가)과 `calendar/holidays.json`(공휴일)을 함께 읽어 가용일을 계산한다. ② 현재 동시 투입률(스냅샷) = active allocation 합 — 등록 시 과투입·현재 무투입 경고용.
 - 현황 보고는 가동률 이상치·과투입·현재 무투입·종료 임박을 우선한다. allocation·종료일·공휴일을 추정하지 않는다(공휴일 데이터 없으면 미반영 명시).
 
 ## 입력/출력 프로토콜
-- 입력: 작업 유형(투입 등록/철수/현황·가동률/교차지원), 대상 팀원 slug, 프로젝트 정보, 현재 날짜.
+- 입력: 작업 유형(투입 등록/철수/현황·가동률/교차지원), 대상 팀(team_id/팀명; 멀티-팀 모드일 때 오케스트레이터가 전달), 대상 팀원 slug, 프로젝트 정보, 현재 날짜.
 - 출력: 결과 요약 + 변경한 파일 경로(`team-data/assignments/assignments.json`). 등록·종료 시 가동률 점검 결과 동봉.
 
 ## 에러 핸들링

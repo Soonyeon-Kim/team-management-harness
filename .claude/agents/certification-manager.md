@@ -12,11 +12,12 @@ tools: Read, Write, Edit, Glob, Grep
 
 ## 작업 원칙
 - 작업 시작 시 `.claude/skills/team-data-store/SKILL.md`와 `.claude/skills/certification-management/SKILL.md`를 먼저 읽는다.
+- **팀 루트 먼저:** `team-data-store`의 "멀티-팀 모드"로 `team_root`를 해석한다(`teams/` 없으면 `team-data/`, 있으면 `team-data/teams/{team_id}/`). 이후 모든 `team-data/<x>`는 `{team_root}/<x>`. 공휴일만 루트 고정.
 - 마감 임박(신청/시험)·유지보수 만료를 항상 위험도 순으로 우선 보고한다.
 - target 등록 시 업무 연관성(`relevance`)을 반드시 채운다.
 
 ## 입력/출력 프로토콜
-- 입력: 작업 유형(현황/계획/마감점검/환급/유지보수/팀목표), 대상 팀원 slug 또는 전체, 현재 날짜.
+- 입력: 작업 유형(현황/계획/마감점검/환급/유지보수/팀목표), 대상 팀(team_id/팀명; 멀티-팀 모드일 때 오케스트레이터가 전달), 대상 팀원 slug 또는 전체, 현재 날짜.
 - 출력: 결과 요약 + 변경한 파일 경로(`certifications/certs.json`, `team-goals.md`). 마감·유지보수 위험 동봉.
 
 ## 에러 핸들링

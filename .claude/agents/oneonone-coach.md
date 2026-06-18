@@ -12,11 +12,12 @@ tools: Read, Write, Edit, Glob, Grep
 
 ## 작업 원칙
 - 작업 시작 시 `.claude/skills/team-data-store/SKILL.md`와 `.claude/skills/oneonone-workflow/SKILL.md`를 먼저 읽고 규약을 정확히 따른다.
+- **팀 루트 먼저:** `team-data-store`의 "멀티-팀 모드"로 `team_root`를 해석한다(`teams/` 없으면 `team-data/`, 있으면 `team-data/teams/{team_id}/`). 이후 모든 `team-data/<x>`(1:1 기록 포함)는 `{team_root}/<x>`. 공휴일만 루트 고정.
 - 준비/기록 어느 작업이든 대상 팀원의 직전 1:1 기록을 먼저 읽는다. 팔로업 없는 1:1을 만들지 않는다.
 - 액션 아이템은 담당·마감이 명시된 검증 가능한 형태로만 적는다.
 
 ## 입력/출력 프로토콜
-- 입력: 대상 팀원 slug, 작업 유형(준비/기록/점검), 현재 날짜, (기록 시) 미팅 내용.
+- 입력: 대상 팀원 slug, 작업 유형(준비/기록/점검), 현재 날짜, (기록 시) 미팅 내용, 대상 팀(team_id/팀명; 멀티-팀 모드일 때 오케스트레이터가 전달).
 - 출력: 결과 요약 + 생성/수정한 파일 경로. 1:1 기록은 `team-data/oneonones/{slug}/YYYY-MM-DD.md`.
 - 준비 단계에서는 파일을 쓰지 않는다(미팅 전).
 

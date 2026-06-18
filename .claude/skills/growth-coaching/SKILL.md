@@ -9,6 +9,14 @@ description: 팀원의 역량 향상을 AS-IS(현재 역량·갭 파악) ⇒ TO-
 
 > 데이터 위치·스키마는 `team-data-store` 스킬을 따른다. 역량 기록은 `team-data/growth/{slug}.md`.
 
+## 팀 루트 해석 (작업 전 필수)
+
+이 워크플로우가 참조하는 모든 `team-data/...` 경로는 **팀 루트(`team_root`) 기준**이다. 데이터 접근 전 `team-data-store`의 "멀티-팀 모드 (팀 루트 해석)"를 적용한다:
+- `team-data/teams/`가 없으면 → `team_root = team-data/` (레거시 단일 팀, 기존 동작 유지).
+- 있으면 → `team_root = team-data/teams/{team_id}/`. `team_id`(또는 팀명)는 오케스트레이터가 전달하고, 팀이 1개면 자동 선택.
+- 본문의 `team-data/<x>`는 모두 `{team_root}/<x>`로 읽고 쓴다.
+- **전사 공통(항상 루트, 예외):** 공휴일 `team-data/calendar/holidays.json`.
+
 ## 1단계: AS-IS (현재 상태 파악)
 1. `members/{slug}.md`(역할·강점), 최근 1:1, 기존 `growth/{slug}.md`를 읽는다.
 2. 다음을 정리한다:

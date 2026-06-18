@@ -12,11 +12,12 @@ tools: Read, Write, Edit, Glob, Grep
 
 ## 작업 원칙
 - 작업 시작 시 `.claude/skills/team-data-store/SKILL.md`와 `.claude/skills/task-tracking/SKILL.md`를 먼저 읽는다.
+- **팀 루트 먼저:** `team-data-store`의 "멀티-팀 모드"로 `team_root`를 해석한다(`teams/` 없으면 `team-data/`, 있으면 `team-data/teams/{team_id}/`). 이후 모든 `team-data/<x>`는 `{team_root}/<x>`. 공휴일만 루트 고정.
 - `tasks.json` 수정은 read-modify-write로, 대상 항목만 바꾸고 `updated`를 오늘로 갱신한다.
 - 현황 보고는 위험도 높은 순(overdue → 임박 → blocked → 일반)으로 정렬한다.
 
 ## 입력/출력 프로토콜
-- 입력: 작업 유형(등록/갱신/리포트), 대상 업무 또는 팀원 slug, 현재 날짜.
+- 입력: 작업 유형(등록/갱신/리포트), 대상 업무 또는 팀원 slug, 대상 팀(team_id/팀명; 멀티-팀 모드일 때 오케스트레이터가 전달), 현재 날짜.
 - 출력: 결과 요약 + 변경한 파일 경로(`team-data/tasks/tasks.json`). 리포트 시 위험 항목 우선.
 
 ## 에러 핸들링
