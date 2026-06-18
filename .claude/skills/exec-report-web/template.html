@@ -101,6 +101,11 @@
   .area li{font-size:12.5px; color:#334155; padding:4px 0 4px 16px; position:relative;}
   .area li::before{content:""; position:absolute; left:0; top:10px; width:5px; height:5px; border-radius:50%; background:var(--accent);}
   .area li.empty{padding-left:0; color:var(--muted);} .area li.empty::before{display:none;}
+  /* 상급자 묶음 전용 복귀 링크 (팀장용/레거시에선 빈값 치환) */
+  a.backlink{display:inline-flex; align-items:center; gap:6px; margin-bottom:14px; padding:7px 13px; text-decoration:none;
+    background:var(--card); border:1px solid var(--line); border-radius:999px; color:var(--accent);
+    font-size:12.5px; font-weight:650; box-shadow:var(--shadow); transition:border-color .15s;}
+  a.backlink:hover{border-color:var(--accent);}
   /* 푸터 */
   footer.report{margin-top:22px; padding-top:14px; border-top:1px solid var(--line); color:var(--muted); font-size:11.5px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;}
   /* 반응형 */
@@ -112,6 +117,7 @@
   /* 인쇄(PDF) */
   @media print{
     body{background:#fff;} .page{margin:0; max-width:none;}
+    a.backlink{display:none;}
     header.report,.kpi,.risk,.area,table{box-shadow:none;}
     section,.area,.risk,tr{break-inside:avoid;}
     th{position:static;}
@@ -125,6 +131,7 @@
 <body>
 <div class="page">
 
+  {{NAV_BACK}}
   <header class="report">
     <div>
       <div class="kicker">팀 현황 보고</div>
