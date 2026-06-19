@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>데이터 컨설팅팀 팀 현황 보고 — 2026-06-19</title>
+<style>
+  :root{
+    --ink:#0f172a; --muted:#64748b; --line:#e7ebf0; --bg:#eef1f6; --card:#ffffff;
+    --accent:#4f46e5; --ok:#16a34a; --warn:#d97706; --bad:#dc2626; --info:#2563eb;
+    --ok-bg:#f0fdf4; --warn-bg:#fffbeb; --bad-bg:#fef2f2; --info-bg:#eff6ff;
+    --shadow:0 1px 2px rgba(15,23,42,.05),0 4px 12px rgba(15,23,42,.05);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Segoe UI","Malgun Gothic","맑은 고딕",-apple-system,Roboto,sans-serif;
+    line-height:1.55; font-size:14px;
+  }
+  .page{max-width:900px; margin:26px auto; padding:0 16px;}
+  /* 헤더 (라이트 카드 + 좌측 액센트 바 + 키커) */
+  header.report{
+    position:relative; overflow:hidden;
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:20px 24px; display:flex; justify-content:space-between; align-items:flex-end; gap:16px;
+    box-shadow:var(--shadow);
+  }
+  header.report::before{content:""; position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--accent);}
+  header.report .kicker{font-size:11px; font-weight:700; letter-spacing:.06em; color:var(--accent); text-transform:uppercase;}
+  header.report h1{margin:4px 0; font-size:22px; letter-spacing:-.02em;}
+  header.report .sub{color:var(--muted); font-size:12.5px;}
+  .badge{
+    background:#f1f5f9; border:1px solid var(--line); color:var(--muted);
+    padding:5px 12px; border-radius:999px; font-size:11.5px; white-space:nowrap;
+  }
+  /* 섹션 공통 */
+  section{margin-top:22px;}
+  h2.sec{font-size:14px; margin:0 0 12px; display:flex; align-items:center; gap:8px; letter-spacing:-.01em;}
+  h2.sec::before{content:""; width:4px; height:15px; background:var(--accent); border-radius:2px;}
+  /* KPI 카드 (상태색 배경 + 컬러 숫자) */
+  .kpi-row{display:grid; grid-template-columns:repeat(5,1fr); gap:12px;}
+  .kpi{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 16px;}
+  .kpi .label{font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.03em;}
+  .kpi .value{font-size:27px; font-weight:760; letter-spacing:-.02em; margin-top:7px;}
+  .kpi .note{font-size:11.5px; color:var(--muted); margin-top:3px;}
+  .kpi.ok{background:var(--ok-bg); border-color:#bbf7d0;} .kpi.ok .value{color:var(--ok);}
+  .kpi.warn{background:var(--warn-bg); border-color:#fde68a;} .kpi.warn .value{color:var(--warn);}
+  .kpi.bad{background:var(--bad-bg); border-color:#fecaca;} .kpi.bad .value{color:var(--bad);}
+  /* 위험 신호 (좌측 심각도 바 + CSS 색 점 + 배지) */
+  .risk{display:flex; gap:12px; align-items:flex-start; background:var(--card);
+        border:1px solid var(--line); border-left-width:4px; border-radius:10px; padding:13px 14px; margin-bottom:9px;}
+  .risk .ico{flex:0 0 auto; width:22px; height:22px; display:flex; align-items:center; justify-content:center;}
+  .risk .dot{width:10px; height:10px; border-radius:50%;}
+  .risk .body{flex:1; min-width:0;}
+  .risk .title{font-weight:650; font-size:14px;}
+  .risk .detail{font-size:12.5px; color:var(--muted); margin-top:2px;}
+  .risk .pill{flex:0 0 auto; align-self:center; font-size:10.5px; font-weight:700; padding:3px 9px; border-radius:999px; white-space:nowrap;}
+  .risk.sev-high{border-left-color:var(--bad);}
+  .risk.sev-high .dot{background:var(--bad); box-shadow:0 0 0 4px rgba(220,38,38,.14);}
+  .risk.sev-high .pill{background:var(--bad-bg); color:var(--bad);}
+  .risk.sev-mid{border-left-color:var(--warn);}
+  .risk.sev-mid .dot{background:var(--warn); box-shadow:0 0 0 4px rgba(217,119,6,.14);}
+  .risk.sev-mid .pill{background:var(--warn-bg); color:var(--warn);}
+  .risk.sev-low{border-left-color:var(--info);}
+  .risk.sev-low .dot{background:var(--info); box-shadow:0 0 0 4px rgba(37,99,235,.14);}
+  .risk.sev-low .pill{background:var(--info-bg); color:var(--info);}
+  .risk-more{font-size:12px; color:var(--muted); padding:4px 2px 0;}
+  .empty{color:var(--muted); font-size:13px; padding:10px 0;}
+  /* 팀원 현황 표 (정돈된 표 + sticky 헤더 + 주의 행 강조) */
+  .table-wrap{overflow-x:auto; max-height:none;}
+  table{border-collapse:separate; border-spacing:0; width:100%; min-width:640px; background:var(--card);
+        border:1px solid var(--line); border-radius:12px; overflow:hidden; font-size:13px;}
+  th{position:sticky; top:0; z-index:2; background:#f8fafc; color:var(--muted); font-weight:600; font-size:11px;
+     text-transform:uppercase; letter-spacing:.03em; text-align:left; padding:10px 12px; border-bottom:1px solid var(--line);}
+  td{padding:11px 12px; border-bottom:1px solid #f1f5f9; vertical-align:middle;}
+  tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:#fafbff;}
+  /* 주의 팀원 행 강조: 첫 셀에 좌측 컬러 바 + 옅은 배경 */
+  tbody tr.attn{background:var(--bad-bg);}
+  tbody tr.attn:hover{background:#fde8e8;}
+  tbody tr.attn td:first-child{box-shadow:inset 3px 0 0 var(--bad);}
+  .nm{font-weight:680; font-size:13.5px;}
+  .bar{position:relative; height:7px; background:#e7ebf0; border-radius:999px; overflow:hidden; min-width:74px;}
+  .bar > span{position:absolute; left:0; top:0; bottom:0; border-radius:999px; background:var(--accent);}
+  .bar.ok > span{background:var(--ok);} .bar.warn > span{background:var(--warn);} .bar.bad > span{background:var(--bad);}
+  .barlabel{font-size:11px; color:var(--muted); margin-top:4px; display:block;}
+  /* 영역별 요약 (카드 + 아이콘 칩 + CSS 점 불릿) */
+  .areas{display:grid; grid-template-columns:repeat(2,1fr); gap:14px;}
+  .area{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px 18px; box-shadow:var(--shadow);}
+  .area.wide{grid-column:1 / -1;}
+  .area h3{margin:0 0 10px; font-size:13.5px; display:flex; align-items:center; gap:8px;}
+  .area .chip{width:26px; height:26px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:14px; background:#eef2ff;}
+  .area ul{margin:0; padding:0; list-style:none;}
+  .area li{font-size:12.5px; color:#334155; padding:4px 0 4px 16px; position:relative;}
+  .area li::before{content:""; position:absolute; left:0; top:10px; width:5px; height:5px; border-radius:50%; background:var(--accent);}
+  .area li.empty{padding-left:0; color:var(--muted);} .area li.empty::before{display:none;}
+  /* 상급자 묶음 전용 복귀 링크 (팀장용/레거시에선 빈값 치환) */
+  a.backlink{display:inline-flex; align-items:center; gap:6px; margin-bottom:14px; padding:7px 13px; text-decoration:none;
+    background:var(--card); border:1px solid var(--line); border-radius:999px; color:var(--accent);
+    font-size:12.5px; font-weight:650; box-shadow:var(--shadow); transition:border-color .15s;}
+  a.backlink:hover{border-color:var(--accent);}
+  /* 푸터 */
+  footer.report{margin-top:22px; padding-top:14px; border-top:1px solid var(--line); color:var(--muted); font-size:11.5px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+  /* 반응형 */
+  @media (max-width:760px){
+    .kpi-row{grid-template-columns:repeat(2,1fr);} .areas{grid-template-columns:1fr;}
+    .area.wide{grid-column:auto;}
+    header.report{flex-direction:column; align-items:flex-start;}
+  }
+  /* 인쇄(PDF) */
+  @media print{
+    body{background:#fff;} .page{margin:0; max-width:none;}
+    a.backlink{display:none;}
+    header.report,.kpi,.risk,.area,table{box-shadow:none;}
+    section,.area,.risk,tr{break-inside:avoid;}
+    th{position:static;}
+    .kpi,.risk,.area,.bar > span,.risk .dot,tr.attn,header.report::before,h2.sec::before{
+      -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    }
+    @page{margin:14mm;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <a class="backlink" href="../2026-06-19-org-summary.html">← 전사 현황으로</a>
+  <header class="report">
+    <div>
+      <div class="kicker">팀 현황 보고</div>
+      <h1>데이터 컨설팅팀</h1>
+      <div class="sub">팀장 김도현 · 보고 기준일 2026-06-19</div>
+    </div>
+    <span class="badge">🔒 내부 보고용</span>
+  </header>
+
+  <!-- ① 핵심 KPI (note에 편차/이상치 병기 권장: 예 "평균 78% · 최저 42% 박민호") -->
+  <section>
+    <h2 class="sec">핵심 지표</h2>
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="label">팀 인원 (active)</div>
+        <div class="value">4명</div>
+        <div class="note">전원 active (팀장 포함 4/4)</div>
+      </div>
+      <div class="kpi warn">
+        <div class="label">가동률 (YTD)</div>
+        <div class="value">36%</div>
+        <div class="note">평균 35.5% · 최저 14% 최예린(5월 투입 신입) · 다수 4월 착수로 YTD 낮음</div>
+      </div>
+      <div class="kpi warn">
+        <div class="label">평균 연차 누적률</div>
+        <div class="value">155%</div>
+        <div class="note">최고 229% 김도현 · 186% 박지우(미소진) · 최저 86% 이서준</div>
+      </div>
+      <div class="kpi">
+        <div class="label">자격증 (보유/목표)</div>
+        <div class="value">3 / 4</div>
+        <div class="note">목표·진행 4건(Databricks·빅데분·ADsP·SF Data Cloud)</div>
+      </div>
+      <div class="kpi warn">
+        <div class="label">1:1 주기</div>
+        <div class="value">2명 due</div>
+        <div class="note">최예린(신입·기록 없음)·김도현(본인, 분기 단위)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ② 핵심 위험 신호 (심각도순 Top N) -->
+  <section>
+    <h2 class="sec">핵심 위험 신호</h2>
+    <div class="risk sev-high">
+      <div class="ico"><span class="dot"></span></div>
+      <div class="body">
+        <div class="title">이서준 — 현재 과투입 (동시 투입 110%)</div>
+        <div class="detail">○○ 금융(60%) + □□ 제조(50%) 동시 투입으로 합산 110%. 6/9 1:1에서 마일스톤 중첩·야근 토로, 우선순위 가이드 요청. □□ 제조 투입률 조정 또는 보조 인력 검토(액션 마감 6/20).</div>
+      </div>
+      <span class="pill">즉시 조치</span>
+    </div>
+    <div class="risk sev-mid">
+      <div class="ico"><span class="dot"></span></div>
+      <div class="body">
+        <div class="title">이서준 — Databricks Professional 응시 신청 마감 임박 (6/28)</div>
+        <div class="detail">팀 분기 자격 목표 핵심 항목. 시험일 7/8, 신청 마감 6/28 — 프로젝트 일정과 겹쳐 등록 지연 우려. 마감 전 응시 등록 확인 필요.</div>
+      </div>
+      <span class="pill">주의</span>
+    </div>
+    <div class="risk sev-mid">
+      <div class="ico"><span class="dot"></span></div>
+      <div class="body">
+        <div class="title">김도현 · 박지우 — 연차 누적률 과다 (229% · 186%)</div>
+        <div class="detail">미소진 누적률 높음(잔여개월 7). 박지우 6/24~25 리프레시 휴가 신청 승인 대기(L-014, 승인 마감 6/20). 김도현 여름 휴가 신청(L-013, 6/29~7/1) 승인 시 사용률 개선 예정. 미사용 독려·승인 처리 필요.</div>
+      </div>
+      <span class="pill">주의</span>
+    </div>
+    <div class="risk sev-mid">
+      <div class="ico"><span class="dot"></span></div>
+      <div class="body">
+        <div class="title">최예린 — 1:1 기록 없음 (신입 온보딩 점검 필요)</div>
+        <div class="detail">2025-08 입사 신입(입사 10개월). 성장 계획상 '6월 첫 1:1'이 언급되나 1:1 기록 파일이 없음. 멘토(이서준) OJT는 주 2회 페어링 정착됐으나, 팀장 직접 온보딩 체크인 기록 부재 — 첫 1:1 실시·기록 권장.</div>
+      </div>
+      <span class="pill">주의</span>
+    </div>
+    <div class="risk sev-low">
+      <div class="ico"><span class="dot"></span></div>
+      <div class="body">
+        <div class="title">김도현 — PMP 유지보수·만료 도래 예정 (maintenance 10/20 · 만료 11/20)</div>
+        <div class="detail">PDU 갱신 필요(만료 2개월 전 알림 대상). 만료된 AWS SA 재취득 여부도 분기 내 결정 사항. 일정 여유 있으나 분기 자격 목표(T-007)와 함께 점검.</div>
+      </div>
+      <span class="pill">참고</span>
+    </div>
+    <!-- 표시 개수를 넘는 위험이 있으면 RISK_MORE_NOTE에 "외 N건 …" 채움. 없으면 빈값(아래 줄 비표시 무방) -->
+    <div class="risk-more">외 1건(참고: T-004 □□ 제조 센서 데이터 품질 점검 — 고객사 데이터 접근 권한 지연으로 blocked, 마감 6/22 임박; T-006 최예린 EDA 초안 멘토 검수 지연으로 마감 경과).</div>
+  </section>
+
+  <!-- ③ 팀원 현황 한눈에 (심각도순 정렬, 주의 팀원은 tr class="attn") -->
+  <section>
+    <h2 class="sec">팀원 현황</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>팀원</th><th>가동률 (YTD)</th><th>연차 (잔여/누적률)</th><th>자격증</th><th>최근 1:1</th><th>역량 평가</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="attn">
+            <td><div class="nm">이서준</div><span class="barlabel">시니어 데이터 컨설턴트</span></td>
+            <td><div class="bar warn"><span style="width:40%"></span></div><span class="barlabel">40.0% · YTD (현재 동시 110% 과투입)</span></td>
+            <td><div class="bar warn"><span style="width:86%"></span></div><span class="barlabel">6.0일 · 누적률 86%</span></td>
+            <td>1 보유 / 2 목표(Databricks Pro·SF Data Cloud)</td>
+            <td>10일 전 (6/9)</td>
+            <td>분기평가 09-30 예정 · 보고 스킬</td>
+          </tr>
+          <tr class="">
+            <td><div class="nm">최예린</div><span class="barlabel">주니어 데이터 분석가 (신입)</span></td>
+            <td><div class="bar warn"><span style="width:14%"></span></div><span class="barlabel">14.4% · YTD (5월 투입·저allocation OJT)</span></td>
+            <td><div class="bar ok"><span style="width:100%"></span></div><span class="barlabel">8.5일 · 누적률 121%</span></td>
+            <td>0 보유 / 1 목표(ADsP)</td>
+            <td>기록 없음</td>
+            <td>첫 분기평가 09-30 예정</td>
+          </tr>
+          <tr class="">
+            <td><div class="nm">김도현</div><span class="barlabel">데이터 컨설팅 팀장</span></td>
+            <td><div class="bar warn"><span style="width:47%"></span></div><span class="barlabel">46.7% · YTD (PM 60% + 팀 운영)</span></td>
+            <td><div class="bar warn"><span style="width:100%"></span></div><span class="barlabel">16.0일 · 누적률 229% (미소진)</span></td>
+            <td>1 보유 / — (PMP 유지보수)</td>
+            <td>본인(분기 단위)</td>
+            <td>분기평가 09-30 예정 · LLM PoC</td>
+          </tr>
+          <tr class="">
+            <td><div class="nm">박지우</div><span class="barlabel">데이터 컨설턴트</span></td>
+            <td><div class="bar warn"><span style="width:41%"></span></div><span class="barlabel">40.9% · YTD (BI 80%)</span></td>
+            <td><div class="bar warn"><span style="width:100%"></span></div><span class="barlabel">13.0일 · 누적률 186% (미소진)</span></td>
+            <td>1 보유 / 1 목표(빅데분기사)</td>
+            <td>8일 전 (6/11)</td>
+            <td>분기평가 09-30 예정 · ELT 전환</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ④ 영역별 요약 -->
+  <section>
+    <h2 class="sec">영역별 요약</h2>
+    <div class="areas">
+      <div class="area"><h3><span class="chip">🗂️</span> 프로젝트 투입 · 가동률</h3><ul><li>YTD 가동률 팀 평균 35.5%(전원 60% 미만, warn) — 다수 투입이 4월 착수라 연초~3월 공백으로 기간 평균이 낮음(스냅샷 아님).</li><li>이서준 현재 동시 투입 110%로 과투입(○○ 금융 60 + □□ 제조 50) — 리소스 재배분 검토 중.</li><li>진행 5건(공공 거버넌스·금융 ELT·금융 BI·제조 센서·금융 BI 보조), 종료 2건(제조 진단·공공 인터뷰 지원). 최예린 7월 사내 교육(planned).</li><li>최예린 YTD 14%는 신입 저allocation OJT 특성 — 무투입 아님(현재 50% 배치 중).</li></ul></div>
+      <div class="area"><h3><span class="chip">🏖️</span> 휴가 · 연차</h3><ul><li>팀 평균 누적률 155%(warn, 미소진 경향). 김도현 229%·박지우 186% 미사용 독려 대상.</li><li>이서준 누적률 86%·연차 11일 사용 — 휴가비(연 100만원) 신청 자격 충족, 45만원 사용.</li><li>승인 대기 2건: 박지우 6/24~25(L-014, 승인 마감 6/20), 김도현 6/29~7/1(L-013) — 승인 시 사용률 개선.</li><li>최예린 신입 월차 소멸(3/31)은 기 사용으로 관리 완료. 박지우 휴가-프로젝트 충돌은 없음(2일·BI 진행).</li></ul></div>
+      <div class="area"><h3><span class="chip">📜</span> 자격증</h3><ul><li>보유 3건(이서준 Databricks Associate, 박지우·환급 완료 ADsP, 김도현 PMP).</li><li>임박: 이서준 Databricks Professional 신청 마감 6/28·시험 7/8 — 핵심 점검 항목.</li><li>진행/목표: 박지우 빅데이터분석기사(8/22), 최예린 ADsP(8/8·첫 자격), 이서준 SF Data Cloud(신규 영역).</li><li>유지보수: 김도현 PMP PDU 갱신(10/20)·만료(11/20), 만료된 AWS SA 재취득 검토.</li></ul></div>
+      <div class="area"><h3><span class="chip">📈</span> 역량 (AS-IS⇒TO-BE)</h3><ul><li>전원 TO-BE 목표 설정 완료, 분기 역량 평가 일제히 09-30 예정(정체 없음).</li><li>이서준: 기술리드→컨설팅리드(단독 운영위 보고 2회·부 PM). 박지우: BI→ELT 풀스택 전환.</li><li>최예린: OJT 멘토링(이서준 주 2회) 정착, ADsP·단독 산출물 1건 목표.</li><li>김도현: LLM 기반 분석 PoC 리딩·생성형 AI 컨설팅 신규 서비스 라인 목표.</li></ul></div>
+      <div class="area wide"><h3><span class="chip">🤝</span> 1:1 미팅</h3><ul><li>박지우 6/11(8일 전)·이서준 6/9(10일 전) — 주기 준수, due 아님.</li><li>최예린(신입) 1:1 기록 없음 — 성장 계획상 '6월 첫 1:1' 언급되나 기록 부재, 첫 체크인 실시·기록 권장.</li><li>김도현(팀장 본인)은 상급자와 분기 단위 진행 — 별도 due 아님.</li><li>미완료 액션: 이서준 과투입 해소·운영위 단독 보고 배정(6/20·6/30), 박지우 휴가 승인·ELT 모듈 매칭(6/20·7/15).</li></ul></div>
+    </div>
+  </section>
+
+  <footer class="report">
+    <span>생성: 2026-06-19 · 데이터 출처: team-data/ (파일 기반)</span>
+    <span>meta_harness 팀원 관리툴 · 자동 생성 스냅샷</span>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>플랫폼 엔지니어링팀 팀 현황 보고 — 2026-06-19</title>
+<style>
+  :root{
+    --ink:#0f172a; --muted:#64748b; --line:#e7ebf0; --bg:#eef1f6; --card:#ffffff;
+    --accent:#4f46e5; --ok:#16a34a; --warn:#d97706; --bad:#dc2626; --info:#2563eb;
+    --ok-bg:#f0fdf4; --warn-bg:#fffbeb; --bad-bg:#fef2f2; --info-bg:#eff6ff;
+    --shadow:0 1px 2px rgba(15,23,42,.05),0 4px 12px rgba(15,23,42,.05);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Segoe UI","Malgun Gothic","맑은 고딕",-apple-system,Roboto,sans-serif;
+    line-height:1.55; font-size:14px;
+  }
+  .page{max-width:900px; margin:26px auto; padding:0 16px;}
+  /* 헤더 (라이트 카드 + 좌측 액센트 바 + 키커) */
+  header.report{
+    position:relative; overflow:hidden;
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:20px 24px; display:flex; justify-content:space-between; align-items:flex-end; gap:16px;
+    box-shadow:var(--shadow);
+  }
+  header.report::before{content:""; position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--accent);}
+  header.report .kicker{font-size:11px; font-weight:700; letter-spacing:.06em; color:var(--accent); text-transform:uppercase;}
+  header.report h1{margin:4px 0; font-size:22px; letter-spacing:-.02em;}
+  header.report .sub{color:var(--muted); font-size:12.5px;}
+  .badge{
+    background:#f1f5f9; border:1px solid var(--line); color:var(--muted);
+    padding:5px 12px; border-radius:999px; font-size:11.5px; white-space:nowrap;
+  }
+  /* 섹션 공통 */
+  section{margin-top:22px;}
+  h2.sec{font-size:14px; margin:0 0 12px; display:flex; align-items:center; gap:8px; letter-spacing:-.01em;}
+  h2.sec::before{content:""; width:4px; height:15px; background:var(--accent); border-radius:2px;}
+  /* KPI 카드 (상태색 배경 + 컬러 숫자) */
+  .kpi-row{display:grid; grid-template-columns:repeat(5,1fr); gap:12px;}
+  .kpi{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 16px;}
+  .kpi .label{font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.03em;}
+  .kpi .value{font-size:27px; font-weight:760; letter-spacing:-.02em; margin-top:7px;}
+  .kpi .note{font-size:11.5px; color:var(--muted); margin-top:3px;}
+  .kpi.ok{background:var(--ok-bg); border-color:#bbf7d0;} .kpi.ok .value{color:var(--ok);}
+  .kpi.warn{background:var(--warn-bg); border-color:#fde68a;} .kpi.warn .value{color:var(--warn);}
+  .kpi.bad{background:var(--bad-bg); border-color:#fecaca;} .kpi.bad .value{color:var(--bad);}
+  /* 위험 신호 (좌측 심각도 바 + CSS 색 점 + 배지) */
+  .risk{display:flex; gap:12px; align-items:flex-start; background:var(--card);
+        border:1px solid var(--line); border-left-width:4px; border-radius:10px; padding:13px 14px; margin-bottom:9px;}
+  .risk .ico{flex:0 0 auto; width:22px; height:22px; display:flex; align-items:center; justify-content:center;}
+  .risk .dot{width:10px; height:10px; border-radius:50%;}
+  .risk .body{flex:1; min-width:0;}
+  .risk .title{font-weight:650; font-size:14px;}
+  .risk .detail{font-size:12.5px; color:var(--muted); margin-top:2px;}
+  .risk .pill{flex:0 0 auto; align-self:center; font-size:10.5px; font-weight:700; padding:3px 9px; border-radius:999px; white-space:nowrap;}
+  .risk.sev-high{border-left-color:var(--bad);}
+  .risk.sev-high .dot{background:var(--bad); box-shadow:0 0 0 4px rgba(220,38,38,.14);}
+  .risk.sev-high .pill{background:var(--bad-bg); color:var(--bad);}
+  .risk.sev-mid{border-left-color:var(--warn);}
+  .risk.sev-mid .dot{background:var(--warn); box-shadow:0 0 0 4px rgba(217,119,6,.14);}
+  .risk.sev-mid .pill{background:var(--warn-bg); color:var(--warn);}
+  .risk.sev-low{border-left-color:var(--info);}
+  .risk.sev-low .dot{background:var(--info); box-shadow:0 0 0 4px rgba(37,99,235,.14);}
+  .risk.sev-low .pill{background:var(--info-bg); color:var(--info);}
+  .risk-more{font-size:12px; color:var(--muted); padding:4px 2px 0;}
+  .empty{color:var(--muted); font-size:13px; padding:10px 0;}
+  /* 팀원 현황 표 (정돈된 표 + sticky 헤더 + 주의 행 강조) */
+  .table-wrap{overflow-x:auto; max-height:none;}
+  table{border-collapse:separate; border-spacing:0; width:100%; min-width:640px; background:var(--card);
+        border:1px solid var(--line); border-radius:12px; overflow:hidden; font-size:13px;}
+  th{position:sticky; top:0; z-index:2; background:#f8fafc; color:var(--muted); font-weight:600; font-size:11px;
+     text-transform:uppercase; letter-spacing:.03em; text-align:left; padding:10px 12px; border-bottom:1px solid var(--line);}
+  td{padding:11px 12px; border-bottom:1px solid #f1f5f9; vertical-align:middle;}
+  tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:#fafbff;}
+  /* 주의 팀원 행 강조: 첫 셀에 좌측 컬러 바 + 옅은 배경 */
+  tbody tr.attn{background:var(--bad-bg);}
+  tbody tr.attn:hover{background:#fde8e8;}
+  tbody tr.attn td:first-child{box-shadow:inset 3px 0 0 var(--bad);}
+  .nm{font-weight:680; font-size:13.5px;}
+  .bar{position:relative; height:7px; background:#e7ebf0; border-radius:999px; overflow:hidden; min-width:74px;}
+  .bar > span{position:absolute; left:0; top:0; bottom:0; border-radius:999px; background:var(--accent);}
+  .bar.ok > span{background:var(--ok);} .bar.warn > span{background:var(--warn);} .bar.bad > span{background:var(--bad);}
+  .barlabel{font-size:11px; color:var(--muted); margin-top:4px; display:block;}
+  /* 영역별 요약 (카드 + 아이콘 칩 + CSS 점 불릿) */
+  .areas{display:grid; grid-template-columns:repeat(2,1fr); gap:14px;}
+  .area{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px 18px; box-shadow:var(--shadow);}
+  .area.wide{grid-column:1 / -1;}
+  .area h3{margin:0 0 10px; font-size:13.5px; display:flex; align-items:center; gap:8px;}
+  .area .chip{width:26px; height:26px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:14px; background:#eef2ff;}
+  .area ul{margin:0; padding:0; list-style:none;}
+  .area li{font-size:12.5px; color:#334155; padding:4px 0 4px 16px; position:relative;}
+  .area li::before{content:""; position:absolute; left:0; top:10px; width:5px; height:5px; border-radius:50%; background:var(--accent);}
+  .area li.empty{padding-left:0; color:var(--muted);} .area li.empty::before{display:none;}
+  /* 상급자 묶음 전용 복귀 링크 (팀장용/레거시에선 빈값 치환) */
+  a.backlink{display:inline-flex; align-items:center; gap:6px; margin-bottom:14px; padding:7px 13px; text-decoration:none;
+    background:var(--card); border:1px solid var(--line); border-radius:999px; color:var(--accent);
+    font-size:12.5px; font-weight:650; box-shadow:var(--shadow); transition:border-color .15s;}
+  a.backlink:hover{border-color:var(--accent);}
+  /* 푸터 */
+  footer.report{margin-top:22px; padding-top:14px; border-top:1px solid var(--line); color:var(--muted); font-size:11.5px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+  /* 반응형 */
+  @media (max-width:760px){
+    .kpi-row{grid-template-columns:repeat(2,1fr);} .areas{grid-template-columns:1fr;}
+    .area.wide{grid-column:auto;}
+    header.report{flex-direction:column; align-items:flex-start;}
+  }
+  /* 인쇄(PDF) */
+  @media print{
+    body{background:#fff;} .page{margin:0; max-width:none;}
+    a.backlink{display:none;}
+    header.report,.kpi,.risk,.area,table{box-shadow:none;}
+    section,.area,.risk,tr{break-inside:avoid;}
+    th{position:static;}
+    .kpi,.risk,.area,.bar > span,.risk .dot,tr.attn,header.report::before,h2.sec::before{
+      -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    }
+    @page{margin:14mm;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="report">
+    <div>
+      <div class="kicker">팀 현황 보고</div>
+      <h1>플랫폼 엔지니어링팀</h1>
+      <div class="sub">팀장 한지훈 · 보고 기준일 2026-06-19</div>
+    </div>
+    <span class="badge">🔒 내부 보고용</span>
+  </header>
+
+  <!-- ① 핵심 KPI -->
+  <section>
+    <h2 class="sec">핵심 지표</h2>
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="label">팀 인원 (active)</div>
+        <div class="value">3명</div>
+        <div class="note">전원 active (팀장 포함)</div>
+      </div>
+      <div class="kpi warn">
+        <div class="label">가동률 (YTD)</div>
+        <div class="value">59%</div>
+        <div class="note">YTD 평균 · 최저 53.6% 신유나 · 최고 65.3% 한지훈 (전원 70% 미만)</div>
+      </div>
+      <div class="kpi warn">
+        <div class="label">평균 연차 누적률</div>
+        <div class="value">171%</div>
+        <div class="note">미소진 과다 · 최고 235.7% 한지훈 (소진 독려)</div>
+      </div>
+      <div class="kpi">
+        <div class="label">자격증 (보유/목표)</div>
+        <div class="value">3 / 3</div>
+        <div class="note">목표 1 · 진행 2 (CKA·Terraform 마감 임박)</div>
+      </div>
+      <div class="kpi warn">
+        <div class="label">1:1 주기</div>
+        <div class="value">1명 due</div>
+        <div class="note">한지훈(팀장) 본인 1:1 기록 없음 · 팀원 2명은 최근 진행</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ② 핵심 위험 신호 (심각도순 Top N) -->
+  <section>
+    <h2 class="sec">핵심 위험 신호</h2>
+    <div class="risk sev-high">
+      <div class="ico"><span class="dot"></span></div>
+      <div class="body">
+        <div class="title">오태경 — 현재 과투입 120% (동시 투입)</div>
+        <div class="detail">○○ 금융 DW(60%) + □□ 게임 파이프라인(60%) 동시 투입. 6/30까지 □□ 게임 60→40% 하향·신유나 20% 분담 액션이 미이행 상태. 재배치가 학습·위임의 선결 과제.</div>
+      </div>
+      <span class="pill">즉시 조치</span>
+    </div>
+    <div class="risk sev-high">
+      <div class="ico"><span class="dot"></span></div>
+      <div class="body">
+        <div class="title">오태경 — CKA 신청 마감 6/26 임박 (응시 6/29)</div>
+        <div class="detail">in-progress이나 과투입으로 학습 시간 부족, 모의시험 합격선 미달. 6/24까지 응시 강행/연기 결정 예정. 인프라 자립(K8s) 갭 해소의 핵심 자격증.</div>
+      </div>
+      <span class="pill">즉시 조치</span>
+    </div>
+    <div class="risk sev-mid">
+      <div class="ico"><span class="dot"></span></div>
+      <div class="body">
+        <div class="title">오태경 — T-003 검증 쿼리 blocked (고객사 권한 지연)</div>
+        <div class="detail">○○ 금융 DW 원본 DB 접근 권한 승인 지연으로 6/22 마감 작업 blocked. 팀장이 6/22까지 고객사 PM에 에스컬레이션 예정. T-002(게임 DAG) 백필 이슈도 병행 부하.</div>
+      </div>
+      <span class="pill">주의</span>
+    </div>
+    <div class="risk sev-mid">
+      <div class="ico"><span class="dot"></span></div>
+      <div class="body">
+        <div class="title">한지훈 — T-006 FinOps 리포트 기한 경과 (OVERDUE 6/15)</div>
+        <div class="detail">△△ 물류 PoC 비용 분석 리포트가 마감 4일 경과. 본인 가동률·플레이어 부하 과다로 착수 지연 — 우선순위 재조정 필요.</div>
+      </div>
+      <span class="pill">주의</span>
+    </div>
+    <div class="risk sev-mid">
+      <div class="ico"><span class="dot"></span></div>
+      <div class="body">
+        <div class="title">한지훈 — 연차 누적률 235.7% + 1:1 기록 없음</div>
+        <div class="detail">잔여 16.5일(누적률 235.7%)로 거의 미사용 — 가동 부하로 휴가 못 쓰는 패턴. 본인 1:1 기록 부재. L-003(7/30~31, 2일) 승인 대기 중. 위임·재배치로 여유 확보 필요.</div>
+      </div>
+      <span class="pill">주의</span>
+    </div>
+    <div class="risk sev-low">
+      <div class="ico"><span class="dot"></span></div>
+      <div class="body">
+        <div class="title">신유나 — 연차 누적률 171.4% (사용 저조 3일)</div>
+        <div class="detail">"일이 재밌어 미루게 된다" — 8월 중 3~5일 사용 계획 제출(6/25 마감) 진행 중. 휴가비는 used≤10이라 미신청 대상(독려 제외).</div>
+      </div>
+      <span class="pill">참고</span>
+    </div>
+    <div class="risk-more"></div>
+  </section>
+
+  <!-- ③ 팀원 현황 한눈에 (심각도순 정렬, 주의 팀원은 tr class="attn") -->
+  <section>
+    <h2 class="sec">팀원 현황</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>팀원</th><th>가동률 (YTD)</th><th>연차 (잔여/누적률)</th><th>자격증</th><th>최근 1:1</th><th>역량 평가</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="attn">
+            <td><div class="nm">오태경</div><span class="barlabel">데이터 엔지니어</span></td>
+            <td><div class="bar warn"><span style="width:59%"></span></div><span class="barlabel">59.2% · YTD (현재 동시투입 120%)</span></td>
+            <td><div class="bar ok"><span style="width:100%"></span></div><span class="barlabel">잔여 7.5일 · 누적률 107.1%</span></td>
+            <td>2 보유 / 1 진행 (CKA)</td>
+            <td>1일 전 (06-18)</td>
+            <td>분기평가 09-30 예정</td>
+          </tr>
+          <tr class="attn">
+            <td><div class="nm">한지훈</div><span class="barlabel">플랫폼 엔지니어링 팀장</span></td>
+            <td><div class="bar warn"><span style="width:65%"></span></div><span class="barlabel">65.3% · YTD</span></td>
+            <td><div class="bar warn"><span style="width:100%"></span></div><span class="barlabel">잔여 16.5일 · 누적률 235.7%</span></td>
+            <td>1 보유 / 1 목표 (GCP PCA)</td>
+            <td>기록 없음</td>
+            <td>분기평가 09-30 예정</td>
+          </tr>
+          <tr class="">
+            <td><div class="nm">신유나</div><span class="barlabel">데브옵스/클라우드 엔지니어</span></td>
+            <td><div class="bar warn"><span style="width:54%"></span></div><span class="barlabel">53.6% · YTD</span></td>
+            <td><div class="bar warn"><span style="width:100%"></span></div><span class="barlabel">잔여 12일 · 누적률 171.4%</span></td>
+            <td>2 보유 / 1 진행 (Terraform)</td>
+            <td>8일 전 (06-11)</td>
+            <td>분기평가 09-30 예정</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ④ 영역별 요약 -->
+  <section>
+    <h2 class="sec">영역별 요약</h2>
+    <div class="areas">
+      <div class="area"><h3><span class="chip">🗂️</span> 프로젝트 투입 · 가동률</h3><ul>
+        <li>팀 YTD 가동률 평균 59.4% — 전원 70% 미만으로 <b>전반적 저가동</b>(고객 대상 투입 비중 여지 존재).</li>
+        <li>오태경 <b>현재 동시 투입 120% 과투입</b>(A-002 60%+A-003 60%) — 6/30까지 □□ 게임 40%로 하향·신유나 20% 분담 계획.</li>
+        <li>한지훈 사내 SRE 상시 50%+△△ 물류 PoC 50% — 위임으로 비중 축소 목표(플레이어 병목).</li>
+        <li>신유나 온보딩 자동화(A-006)는 5/29 종료(기간 집계 포함), 현재 ○○ 금융 운영 70% 단일 투입.</li>
+      </ul></div>
+      <div class="area"><h3><span class="chip">🏖️</span> 휴가 · 연차</h3><ul>
+        <li>팀 평균 누적률 171.4% — <b>미소진 과다</b>. 한지훈 235.7%, 신유나 171.4% 소진 독려 대상.</li>
+        <li>오태경 누적률 107.1%(적정) · used 11.5일로 <b>휴가비 신청 자격 충족</b>(100만원 중 45만 사용, 잔여 55만 활용 독려).</li>
+        <li>향후 2주: 오태경 6/22~23 연차(승인), 신유나 6/30 오후 반차(대기) — 6/22~23 오태경 부재가 T-003 일정과 겹침.</li>
+        <li>한지훈 L-003(7/30~31) 승인 대기 — 연차 소진 독려 결과.</li>
+      </ul></div>
+      <div class="area"><h3><span class="chip">📜</span> 자격증</h3><ul>
+        <li>보유 3(AWS SA Pro·정보처리기사·CKA) / 목표 1(GCP PCA) · 진행 2.</li>
+        <li><b>마감 임박 2건</b>: 오태경 CKA 신청 6/26·응시 6/29(과투입 리스크), 신유나 Terraform Associate 신청 7/4·응시 7/11(학습 70%).</li>
+        <li>유지보수(maintenance_due) 도래 건 없음. 재인증: 한지훈 AWS 2028-11, 신유나 CKA 2029-03.</li>
+        <li>환급 완료 3건 — 미환급은 진행 중 자격증 합격 후 처리 예정.</li>
+      </ul></div>
+      <div class="area"><h3><span class="chip">📈</span> 역량 (AS-IS⇒TO-BE)</h3><ul>
+        <li>전원 TO-BE 설정 완료, 분기 평가(next_review) 09-30 예정 — 현재 정체 신호 없음.</li>
+        <li>한지훈: 위임 런북 5건 목표 중 2건 진행, FinOps 착수 단계(가동 과다로 학습 잠식).</li>
+        <li>오태경: CKA로 K8s 인프라 자립 추진 — 과투입 미해소 시 목표 4분기 이연 위험.</li>
+        <li>신유나: CKA 취득 후 성장세 뚜렷, Terraform 70%·온콜 자립 준비 중.</li>
+      </ul></div>
+      <div class="area wide"><h3><span class="chip">🤝</span> 1:1 미팅</h3><ul>
+        <li>오태경 6/18(컨디션 yellow) — 과투입·CKA 마감·blocked 겹침, 재배치가 선결 과제로 확인.</li>
+        <li>신유나 6/11(컨디션 green) — Terraform 응시·온콜 합류·연차 사용 계획 논의, 성장세 양호.</li>
+        <li><b>한지훈(팀장) 본인 1:1 기록 없음</b> — 상급자 체크인/셀프 리뷰 누락(주기 점검 필요).</li>
+        <li>미완료 액션: 오태경 투입 비중 조정(6/30), 신유나 게임데이 편성(6/30)·연차 계획 제출(6/25).</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <footer class="report">
+    <span>생성: 2026-06-19 · 데이터 출처: team-data/ (파일 기반)</span>
+    <span>meta_harness 팀원 관리툴 · 자동 생성 스냅샷</span>
+  </footer>
+
+</div>
+</body>
+</html>

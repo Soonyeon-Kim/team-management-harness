@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>조직 현황 요약 — 2026-06-19</title>
+<style>
+  :root{
+    --ink:#0f172a; --muted:#64748b; --line:#e7ebf0; --bg:#eef1f6; --card:#ffffff;
+    --accent:#4f46e5; --ok:#16a34a; --warn:#d97706; --bad:#dc2626; --info:#2563eb;
+    --ok-bg:#f0fdf4; --warn-bg:#fffbeb; --bad-bg:#fef2f2; --info-bg:#eff6ff;
+    --shadow:0 1px 2px rgba(15,23,42,.05),0 4px 12px rgba(15,23,42,.05);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:"Segoe UI","Malgun Gothic","맑은 고딕",-apple-system,Roboto,sans-serif; line-height:1.55; font-size:14px;}
+  .page{max-width:920px; margin:26px auto; padding:0 16px;}
+  header.report{position:relative; overflow:hidden; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px 24px; display:flex; justify-content:space-between; align-items:flex-end; gap:16px; box-shadow:var(--shadow);}
+  header.report::before{content:""; position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--accent);}
+  header.report .kicker{font-size:11px; font-weight:700; letter-spacing:.06em; color:var(--accent); text-transform:uppercase;}
+  header.report h1{margin:4px 0; font-size:22px; letter-spacing:-.02em;}
+  header.report .sub{color:var(--muted); font-size:12.5px;}
+  .badge{background:#f1f5f9; border:1px solid var(--line); color:var(--muted); padding:5px 12px; border-radius:999px; font-size:11.5px; white-space:nowrap;}
+  section{margin-top:22px;}
+  h2.sec{font-size:14px; margin:0 0 12px; display:flex; align-items:center; gap:8px; letter-spacing:-.01em;}
+  h2.sec::before{content:""; width:4px; height:15px; background:var(--accent); border-radius:2px;}
+  .kpi-row{display:grid; grid-template-columns:repeat(5,1fr); gap:12px;}
+  .kpi{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 16px;}
+  .kpi .label{font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.03em;}
+  .kpi .value{font-size:27px; font-weight:760; letter-spacing:-.02em; margin-top:7px;}
+  .kpi .note{font-size:11.5px; color:var(--muted); margin-top:3px;}
+  .kpi.ok{background:var(--ok-bg); border-color:#bbf7d0;} .kpi.ok .value{color:var(--ok);}
+  .kpi.warn{background:var(--warn-bg); border-color:#fde68a;} .kpi.warn .value{color:var(--warn);}
+  .kpi.bad{background:var(--bad-bg); border-color:#fecaca;} .kpi.bad .value{color:var(--bad);}
+  /* 위험 */
+  .risk{display:flex; gap:12px; align-items:flex-start; background:var(--card); border:1px solid var(--line); border-left-width:4px; border-radius:10px; padding:13px 14px; margin-bottom:9px;}
+  .risk .ico{flex:0 0 auto; width:22px; height:22px; display:flex; align-items:center; justify-content:center;}
+  .risk .dot{width:10px; height:10px; border-radius:50%;}
+  .risk .body{flex:1; min-width:0;}
+  .risk .title{font-weight:650; font-size:14px;}
+  .risk .detail{font-size:12.5px; color:var(--muted); margin-top:2px;}
+  .risk .pill{flex:0 0 auto; align-self:center; font-size:10.5px; font-weight:700; padding:3px 9px; border-radius:999px; white-space:nowrap;}
+  .risk.sev-high{border-left-color:var(--bad);} .risk.sev-high .dot{background:var(--bad); box-shadow:0 0 0 4px rgba(220,38,38,.14);} .risk.sev-high .pill{background:var(--bad-bg); color:var(--bad);}
+  .risk.sev-mid{border-left-color:var(--warn);} .risk.sev-mid .dot{background:var(--warn); box-shadow:0 0 0 4px rgba(217,119,6,.14);} .risk.sev-mid .pill{background:var(--warn-bg); color:var(--warn);}
+  .risk.sev-low{border-left-color:var(--info);} .risk.sev-low .dot{background:var(--info); box-shadow:0 0 0 4px rgba(37,99,235,.14);} .risk.sev-low .pill{background:var(--info-bg); color:var(--info);}
+  .risk-more{font-size:12px; color:var(--muted); padding:4px 2px 0;}
+  .empty{color:var(--muted); font-size:13px; padding:10px 0;}
+  /* 팀 비교 표 */
+  .table-wrap{overflow-x:auto;}
+  table{border-collapse:separate; border-spacing:0; width:100%; min-width:660px; background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; font-size:13px;}
+  th{position:sticky; top:0; z-index:2; background:#f8fafc; color:var(--muted); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.03em; text-align:left; padding:10px 12px; border-bottom:1px solid var(--line);}
+  td{padding:11px 12px; border-bottom:1px solid #f1f5f9; vertical-align:middle;}
+  tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:#fafbff;}
+  tbody tr.attn{background:var(--bad-bg);} tbody tr.attn:hover{background:#fde8e8;} tbody tr.attn td:first-child{box-shadow:inset 3px 0 0 var(--bad);}
+  .nm{font-weight:680; font-size:13.5px;}
+  .bar{position:relative; height:7px; background:#e7ebf0; border-radius:999px; overflow:hidden; min-width:74px;}
+  .bar > span{position:absolute; left:0; top:0; bottom:0; border-radius:999px; background:var(--accent);}
+  .bar.ok > span{background:var(--ok);} .bar.warn > span{background:var(--warn);} .bar.bad > span{background:var(--bad);}
+  .barlabel{font-size:11px; color:var(--muted); margin-top:4px; display:block;}
+  /* 팀 바로가기 */
+  .links{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px;}
+  a.teamlink{display:flex; justify-content:space-between; align-items:center; gap:10px; text-decoration:none; color:inherit;
+    background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; box-shadow:var(--shadow); transition:border-color .15s;}
+  a.teamlink:hover{border-color:var(--accent);}
+  a.teamlink .tl-name{font-weight:680; font-size:14px;}
+  a.teamlink .tl-sub{font-size:11.5px; color:var(--muted); margin-top:2px;}
+  a.teamlink .tl-go{flex:0 0 auto; font-size:12px; font-weight:700; color:var(--accent);}
+  footer.report{margin-top:22px; padding-top:14px; border-top:1px solid var(--line); color:var(--muted); font-size:11.5px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+  @media (max-width:760px){ .kpi-row{grid-template-columns:repeat(2,1fr);} header.report{flex-direction:column; align-items:flex-start;} }
+  @media print{
+    body{background:#fff;} .page{margin:0; max-width:none;}
+    header.report,.kpi,.risk,table,a.teamlink{box-shadow:none;}
+    section,.risk,tr{break-inside:avoid;} th{position:static;}
+    .kpi,.risk,.bar > span,.risk .dot,tr.attn,header.report::before,h2.sec::before{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+    @page{margin:14mm;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="report">
+    <div>
+      <div class="kicker">조직 현황 요약</div>
+      <h1>전사 팀 현황</h1>
+      <div class="sub">3개 팀 · 보고 기준일 2026-06-19</div>
+    </div>
+    <span class="badge">🔒 내부 보고용</span>
+  </header>
+
+  <!-- ① 조직 KPI (팀별 값 집계) -->
+  <section>
+    <h2 class="sec">조직 핵심 지표</h2>
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="label">총 인원 (active)</div>
+        <div class="value">10명</div>
+        <div class="note">3팀 전원 active</div>
+      </div>
+      <div class="kpi warn">
+        <div class="label">평균 가동률 (YTD)</div>
+        <div class="value">52.3%</div>
+        <div class="note">전 팀 YTD 저가동 · 최저 35.5% 데이터컨설팅팀 · 다수 4~5월 프로젝트 착수로 연초 공백 영향(스냅샷 아님)</div>
+      </div>
+      <div class="kpi warn">
+        <div class="label">평균 연차 누적률</div>
+        <div class="value">155.8%</div>
+        <div class="note">전반적 미소진 경향 · 최고 171.4% 플랫폼</div>
+      </div>
+      <div class="kpi">
+        <div class="label">자격증 (보유/목표)</div>
+        <div class="value">9 / 10</div>
+        <div class="note">취득 9 · 추진 10(팀별 합)</div>
+      </div>
+      <div class="kpi warn">
+        <div class="label">1:1 due (전사)</div>
+        <div class="value">4명 due</div>
+        <div class="note">김도현·최예린·정민재·한지훈 기록 경과/없음</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ② 팀 비교 (팀 1개당 1행, 이상 팀은 tr class="attn") -->
+  <section>
+    <h2 class="sec">팀 비교</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>팀</th><th>팀장</th><th>인원</th><th>가동률 (YTD)</th><th>연차 누적률</th><th>자격증</th><th>1:1 due</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="attn">
+            <td><div class="nm">데이터 컨설팅팀</div></td>
+            <td>김도현</td>
+            <td>4</td>
+            <td><div class="bar warn"><span style="width:36%"></span></div><span class="barlabel">35.5% · YTD</span></td>
+            <td><div class="bar warn"><span style="width:100%"></span></div><span class="barlabel">155.4% 누적</span></td>
+            <td>3 / 4</td>
+            <td>2명 due</td>
+          </tr>
+          <tr class="attn">
+            <td><div class="nm">플랫폼 엔지니어링팀</div></td>
+            <td>한지훈</td>
+            <td>3</td>
+            <td><div class="bar warn"><span style="width:59%"></span></div><span class="barlabel">59.4% · YTD</span></td>
+            <td><div class="bar warn"><span style="width:100%"></span></div><span class="barlabel">171.4% 누적</span></td>
+            <td>3 / 3</td>
+            <td>1명 due</td>
+          </tr>
+          <tr class="attn">
+            <td><div class="nm">AI/ML 솔루션팀</div></td>
+            <td>정민재</td>
+            <td>3</td>
+            <td><div class="bar warn"><span style="width:62%"></span></div><span class="barlabel">62.1% · YTD</span></td>
+            <td><div class="bar ok"><span style="width:100%"></span></div><span class="barlabel">140.5% 누적</span></td>
+            <td>3 / 3</td>
+            <td>1명 due</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ③ 조직 Top 위험 (각 항목 제목에 팀명 태그) -->
+  <section>
+    <h2 class="sec">조직 Top 위험 신호</h2>
+    <div class="risk sev-high">
+      <div class="ico"><span class="dot"></span></div>
+      <div class="body">
+        <div class="title">[AI/ML] 강하늘 — 과투입 120%(현재 동시 투입)</div>
+        <div class="detail">A-001 통신 추천 서빙 70% + A-002 이커머스 모니터링 50% 동시. 6/24까지 부하 조정(A-002 하향) 결정.</div>
+      </div>
+      <span class="pill">즉시 조치</span>
+    </div>
+    <div class="risk sev-high">
+      <div class="ico"><span class="dot"></span></div>
+      <div class="body">
+        <div class="title">[AI/ML] 강하늘 — T-002 마감 경과(6/12 미완료)</div>
+        <div class="detail">헬스케어 추론 API 부하 테스트가 과투입으로 지연. 6/22 복구 목표·후속 우선순위 재조정.</div>
+      </div>
+      <span class="pill">즉시 조치</span>
+    </div>
+    <div class="risk sev-high">
+      <div class="ico"><span class="dot"></span></div>
+      <div class="body">
+        <div class="title">[플랫폼] 오태경 — 과투입 120% + CKA 신청 마감 6/26 임박</div>
+        <div class="detail">○○ 금융 DW 60% + □□ 게임 60% 동시. 학습시간 부족, 6/24 강행/연기 결정.</div>
+      </div>
+      <span class="pill">즉시 조치</span>
+    </div>
+    <div class="risk sev-high">
+      <div class="ico"><span class="dot"></span></div>
+      <div class="body">
+        <div class="title">[컨설팅] 이서준 — 과투입 110%(현재 동시 투입)</div>
+        <div class="detail">○○ 금융 60% + □□ 제조 50%. 6/9 1:1서 야근 토로, 6/20까지 리소스 재배분 검토.</div>
+      </div>
+      <span class="pill">즉시 조치</span>
+    </div>
+    <div class="risk sev-mid">
+      <div class="ico"><span class="dot"></span></div>
+      <div class="body">
+        <div class="title">[플랫폼] 한지훈(팀장) — T-006 OVERDUE(6/15) + 연차 미소진(235.7%) + 1:1 부재</div>
+        <div class="detail">FinOps 리포트 착수 지연, 본인 1:1 기록 없음·연차 거의 미사용 — 위임·소진 필요.</div>
+      </div>
+      <span class="pill">주의</span>
+    </div>
+    <div class="risk sev-mid">
+      <div class="ico"><span class="dot"></span></div>
+      <div class="body">
+        <div class="title">[컨설팅] 김도현·박지우 — 연차 누적률 과다(229%·186%)</div>
+        <div class="detail">미소진. 김도현 6/29~7/1·박지우 6/24~25 승인 대기, 승인 시 개선.</div>
+      </div>
+      <span class="pill">주의</span>
+    </div>
+    <div class="risk sev-mid">
+      <div class="ico"><span class="dot"></span></div>
+      <div class="body">
+        <div class="title">[AI/ML] 윤소희 — 연차 누적률 185.7% 미소진 + T-003 블록</div>
+        <div class="detail">연차 2일만 사용. RAG PoC 패키징이 강하늘 과투입으로 블록(6/23 액션).</div>
+      </div>
+      <span class="pill">주의</span>
+    </div>
+    <div class="risk-more">외 4건(이서준 Databricks 신청 6/28, 최예린 신입 첫 1:1 미실시, 신유나 누적률 171.4%, 김도현 PMP 유지보수 10/20·만료 11/20)</div>
+  </section>
+
+  <!-- ④ 팀 바로가기 (드릴다운 — 각 팀 자체완결 리포트로 상대경로 링크) -->
+  <section>
+    <h2 class="sec">팀별 상세 리포트</h2>
+    <div class="links">
+      <a class="teamlink" href="./consulting/2026-06-19-exec-report.html">
+        <div>
+          <div class="tl-name">데이터 컨설팅팀</div>
+          <div class="tl-sub">팀장 김도현 · 가동 36% · 인원 4 · 과투입 1(이서준)</div>
+        </div>
+        <span class="tl-go">열기 →</span>
+      </a>
+      <a class="teamlink" href="./ai/2026-06-19-exec-report.html">
+        <div>
+          <div class="tl-name">AI/ML 솔루션팀</div>
+          <div class="tl-sub">팀장 정민재 · 가동 62% · 인원 3 · 과투입 1(강하늘)·지연 1</div>
+        </div>
+        <span class="tl-go">열기 →</span>
+      </a>
+      <a class="teamlink" href="./platform/2026-06-19-exec-report.html">
+        <div>
+          <div class="tl-name">플랫폼 엔지니어링팀</div>
+          <div class="tl-sub">팀장 한지훈 · 가동 59% · 인원 3 · 과투입 1(오태경)·OVERDUE 1</div>
+        </div>
+        <span class="tl-go">열기 →</span>
+      </a>
+    </div>
+  </section>
+
+  <footer class="report">
+    <span>생성: 2026-06-19 · 데이터 출처: team-data/teams/ (파일 기반)</span>
+    <span>meta_harness 팀원 관리툴 · 조직 요약 스냅샷</span>
+  </footer>
+
+</div>
+</body>
+</html>

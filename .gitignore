@@ -1,6 +1,14 @@
-# 팀 데이터 — 산출물 리포트(_reports/)는 실제 인사정보가 들어갈 수 있어 로컬 전용(커밋 금지).
-# 가상 데모 데이터(teams/·calendar/·checklist.md)는 추적한다.
-team-data/_reports/
+# 팀 데이터 — 리포트 산출물(_reports/)은 실제 인사정보가 들어갈 수 있어 기본 제외(로컬 전용).
+# 단, 아래 가상 데모 리포트 7개만 예외로 추적한다(2026-06-19 세트). 가상 데이터(teams/·calendar/·checklist.md)도 추적.
+team-data/_reports/**
+!team-data/_reports/**/
+!team-data/_reports/exec/2026-06-19-org-summary.html
+!team-data/_reports/exec/consulting/2026-06-19-exec-report.html
+!team-data/_reports/exec/ai/2026-06-19-exec-report.html
+!team-data/_reports/exec/platform/2026-06-19-exec-report.html
+!team-data/_reports/leads/consulting-2026-06-19.html
+!team-data/_reports/leads/ai-2026-06-19.html
+!team-data/_reports/leads/platform-2026-06-19.html
 
 # Claude Code 로컬 설정
 .claude/settings.local.json
