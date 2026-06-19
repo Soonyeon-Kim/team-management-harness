@@ -10,6 +10,22 @@
 
 ---
 
+## 데모 리포트 미리 보기
+
+이 저장소엔 가상 데이터로 만든 상급자/팀장용 HTML 리포트가 들어 있다(`team-data/_reports/`). **GitHub는 `.html`을 렌더링하지 않고 소스 코드로만 보여주므로**, 실제 모습을 보려면 아래 방법을 쓴다.
+
+- **로컬에서 (권장·가장 확실)** — clone 하거나 파일의 `Raw` 버튼으로 내려받아 브라우저로 연다. 진입점은 조직 요약:
+  - `team-data/_reports/exec/2026-06-19-org-summary.html` → 팀 카드로 **드릴다운** → 각 팀 페이지 상단 **"← 전사 현황으로"** 로 복귀(왕복)
+  - 팀장용 단독 리포트: `team-data/_reports/leads/<팀>-2026-06-19.html` (전사/타팀 링크 없음)
+  - 자체완결(외부 의존성 0)이라 **오프라인에서도 그대로 렌더**되고, 브라우저 `Ctrl+P` 로 PDF 저장 가능.
+- **clone 없이 브라우저에서** — GitHub raw 렌더 서비스(`raw.githack.com`)로 바로 연다. 경로가 보존돼 **상대경로 드릴다운/백링크도 동작**한다:
+  - 조직 요약: `https://raw.githack.com/Soonyeon-Kim/team-management-harness/main/team-data/_reports/exec/2026-06-19-org-summary.html`
+  - 참고: `htmlpreview.github.io` 는 상대경로 링크가 깨질 수 있어 `raw.githack.com` 을 권장한다.
+
+> 이 리포트들은 **데모**다. 실데이터로 전환할 때(아래 1단계) 삭제 대상이며, 본인 데이터로는 Claude Code에 "상급자 보고용 웹페이지"로 새로 생성한다.
+
+---
+
 ## ⚠️ 0단계 (가장 먼저) — PII / gitignore 안전
 
 **이 저장소는 데모 공유를 위해 `team-data/teams/`를 git에 추적하도록 `.gitignore`가 설정돼 있다.** 포크에 **실제 인사정보**를 넣고 커밋·푸시하면 그대로 원격에 올라간다 — **포크가 public이면 전 세계에 공개된다.**
