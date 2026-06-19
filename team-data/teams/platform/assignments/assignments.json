@@ -1,0 +1,76 @@
+{
+  "assignments": [
+    {
+      "id": "A-001",
+      "member": "jihoon-han",
+      "project": "△△ 물류 멀티클라우드 마이그레이션 PoC",
+      "client": "△△ 물류",
+      "role": "수석 아키텍트 / 기술 리드",
+      "allocation": 50,
+      "start": "2026-05-04",
+      "end": null,
+      "status": "active",
+      "notes": "FinOps 비용 거버넌스 산출물 직접 담당(성장목표 연계). 본인 가동률 과다 요인."
+    },
+    {
+      "id": "A-002",
+      "member": "taekyung-oh",
+      "project": "○○ 금융 데이터 웨어하우스 마이그레이션",
+      "client": "○○ 금융",
+      "role": "데이터 엔지니어 (리드)",
+      "allocation": 60,
+      "start": "2026-03-02",
+      "end": null,
+      "status": "active",
+      "notes": "무중단 마이그레이션·쿼리 비용 25% 절감. 검증 쿼리 작업(T-003) 권한 대기로 일부 지연."
+    },
+    {
+      "id": "A-003",
+      "member": "taekyung-oh",
+      "project": "□□ 게임 실시간 데이터 파이프라인 구축",
+      "client": "□□ 게임",
+      "role": "데이터 엔지니어",
+      "allocation": 60,
+      "start": "2026-05-11",
+      "end": null,
+      "status": "active",
+      "notes": "A-002와 동시 투입으로 합계 120% 과투입 — 일정 조정/재배치 필요. K8s 배포는 팀장 지원."
+    },
+    {
+      "id": "A-004",
+      "member": "jihoon-han",
+      "project": "사내 데이터 플랫폼 SRE/운영 (상시)",
+      "client": "사내",
+      "role": "운영 책임자",
+      "allocation": 50,
+      "start": "2026-01-02",
+      "end": null,
+      "status": "active",
+      "notes": "장애 대응·런북화 상시 운영. 위임 진행 시 비중 축소 목표."
+    },
+    {
+      "id": "A-005",
+      "member": "yuna-shin",
+      "project": "○○ 금융 클라우드 인프라 운영·관측가능성",
+      "client": "○○ 금융",
+      "role": "데브옵스 엔지니어",
+      "allocation": 70,
+      "start": "2026-04-06",
+      "end": null,
+      "status": "active",
+      "notes": "Grafana 표준 대시보드 도입. 온콜 1차 대응 자립 준비 중."
+    },
+    {
+      "id": "A-006",
+      "member": "yuna-shin",
+      "project": "사내 신규입사자 클라우드 온보딩 자동화",
+      "client": "사내",
+      "role": "데브옵스 엔지니어",
+      "allocation": 30,
+      "start": "2026-02-19",
+      "end": "2026-05-29",
+      "status": "ended",
+      "notes": "온보딩 가이드·자동화 스크립트(T-007) 완료 후 종료. 가동률 기간 집계에는 포함."
+    }
+  ]
+}

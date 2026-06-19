@@ -1,0 +1,35 @@
+{
+  "year": 2026,
+  "balances": [
+    {
+      "member": "jihoon-han",
+      "granted": 16,
+      "carryover": 2,
+      "used": 1.5,
+      "is_newcomer": false,
+      "newcomer_expiry": null,
+      "vacation_fund_used": 0,
+      "notes": "팀장. 가동률 과다로 연차 거의 미사용 — 잔여 16.5일, 누적률 매우 높음(소진 독려 대상). L-003(2일) 승인 시 used 3.5로 갱신 예정."
+    },
+    {
+      "member": "taekyung-oh",
+      "granted": 16,
+      "carryover": 3,
+      "used": 11.5,
+      "is_newcomer": false,
+      "newcomer_expiry": null,
+      "vacation_fund_used": 450000,
+      "notes": "연차 10일 초과 사용(11.5일) — 휴가비 신청 자격 충족. 한도 100만원 중 45만원 사용, 잔여 55만원 활용 독려."
+    },
+    {
+      "member": "yuna-shin",
+      "granted": 15,
+      "carryover": 0,
+      "used": 3.0,
+      "is_newcomer": false,
+      "newcomer_expiry": null,
+      "vacation_fund_used": 0,
+      "notes": "2024-02 입사로 신입 아님(소멸 규정 미적용). 연차 사용 저조(3일) — 누적률 높아 하반기 사용 계획 수립 독려. used<=10이라 휴가비 미신청 대상."
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "tasks": [
+    {
+      "id": "T-001",
+      "title": "□□ 통신 추천 모델 v2 오프라인 평가 리포트 작성",
+      "assignee": "sohee-yoon",
+      "status": "in-progress",
+      "priority": "high",
+      "due": "2026-06-25",
+      "created": "2026-06-05",
+      "updated": "2026-06-18",
+      "notes": "A/B 후보 모델 3종 평가 중. CTR·다양성 지표 병기."
+    },
+    {
+      "id": "T-002",
+      "title": "△△ 헬스케어 예측 모델 추론 API 부하 테스트",
+      "assignee": "haneul-kang",
+      "status": "in-progress",
+      "priority": "high",
+      "due": "2026-06-12",
+      "created": "2026-05-28",
+      "updated": "2026-06-10",
+      "notes": "마감 경과(2026-06-12) 미완료. 과투입으로 지연됨 — 우선순위 재조정 필요."
+    },
+    {
+      "id": "T-003",
+      "title": "사내 RAG 챗봇 PoC 서비스 패키징 (Docker화)",
+      "assignee": "sohee-yoon",
+      "status": "blocked",
+      "priority": "medium",
+      "due": "2026-06-30",
+      "created": "2026-06-08",
+      "updated": "2026-06-17",
+      "notes": "강하늘 멘토링 대기 중 — 강하늘 과투입으로 블록. 패키징 가이드 필요."
+    },
+    {
+      "id": "T-004",
+      "title": "○○ 이커머스 추천 파이프라인 모니터링 대시보드 구축",
+      "assignee": "haneul-kang",
+      "status": "in-progress",
+      "priority": "medium",
+      "due": "2026-07-03",
+      "created": "2026-06-01",
+      "updated": "2026-06-16",
+      "notes": "Grafana 지표 패널 70% 완료."
+    },
+    {
+      "id": "T-005",
+      "title": "생성형 AI 솔루션 라인 표준 제안서(RAG 가드레일) 초안",
+      "assignee": "minjae-jung",
+      "status": "todo",
+      "priority": "high",
+      "due": "2026-07-10",
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "notes": "팀 신규 오퍼링 정립. 윤소희 평가 지표 섹션 협업 예정."
+    },
+    {
+      "id": "T-006",
+      "title": "△△ 헬스케어 분기 모델 재학습 데이터 파이프라인 점검",
+      "assignee": "minjae-jung",
+      "status": "done",
+      "priority": "medium",
+      "due": "2026-06-09",
+      "created": "2026-05-25",
+      "updated": "2026-06-09",
+      "notes": "완료. 재학습 자동화 스케줄 검증 끝."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "year": 2026,
+  "balances": [
+    {
+      "member": "minjae-jung",
+      "granted": 16,
+      "carryover": 2,
+      "used": 11.5,
+      "is_newcomer": false,
+      "newcomer_expiry": null,
+      "vacation_fund_used": 450000,
+      "notes": "연차 11.5일 사용 — 휴가비(연 100만원) 신청 자격 충족(>10일). 잔여 6.5일."
+    },
+    {
+      "member": "haneul-kang",
+      "granted": 15,
+      "carryover": 1,
+      "used": 6.0,
+      "is_newcomer": false,
+      "newcomer_expiry": null,
+      "vacation_fund_used": 0,
+      "notes": "연차 6.0일 사용. 잔여 10일. 7월 여름휴가 예정. 휴가비 자격 미충족(≤10일)."
+    },
+    {
+      "member": "sohee-yoon",
+      "granted": 15,
+      "carryover": 0,
+      "used": 2.0,
+      "is_newcomer": false,
+      "newcomer_expiry": null,
+      "vacation_fund_used": 0,
+      "notes": "연차 2.0일만 사용 — 잔여 13일로 누적률 과다. 하반기 휴가 사용 적극 독려 대상."
+    }
+  ]
+}

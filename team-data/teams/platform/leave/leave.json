@@ -1,0 +1,125 @@
+{
+  "leave": [
+    {
+      "id": "L-001",
+      "member": "jihoon-han",
+      "type": "annual",
+      "unit": "full",
+      "days": 1.0,
+      "start": "2026-04-10",
+      "end": "2026-04-10",
+      "status": "approved",
+      "note": "자녀 학교 행사"
+    },
+    {
+      "id": "L-002",
+      "member": "jihoon-han",
+      "type": "annual",
+      "unit": "half",
+      "days": 0.5,
+      "start": "2026-05-15",
+      "end": "2026-05-15",
+      "status": "approved",
+      "note": "오후 반차, 병원"
+    },
+    {
+      "id": "L-003",
+      "member": "jihoon-han",
+      "type": "annual",
+      "unit": "full",
+      "days": 2.0,
+      "start": "2026-07-30",
+      "end": "2026-07-31",
+      "status": "requested",
+      "note": "여름 휴가 신청 (승인 대기) — 팀장 연차 소진 독려 결과"
+    },
+    {
+      "id": "L-004",
+      "member": "taekyung-oh",
+      "type": "annual",
+      "unit": "full",
+      "days": 4.0,
+      "start": "2026-02-12",
+      "end": "2026-02-13",
+      "status": "approved",
+      "note": "설 연휴 연계 가족 여행 (2/12~2/13, 영업일 2일 + 연차 추가) — 4영업일분"
+    },
+    {
+      "id": "L-005",
+      "member": "taekyung-oh",
+      "type": "annual",
+      "unit": "full",
+      "days": 5.0,
+      "start": "2026-04-27",
+      "end": "2026-05-01",
+      "status": "approved",
+      "note": "봄 장기 휴가 (근로자의 날 5/1 포함이나 연차 신청분은 영업일 5일로 산정)"
+    },
+    {
+      "id": "L-006",
+      "member": "taekyung-oh",
+      "type": "annual",
+      "unit": "full",
+      "days": 2.0,
+      "start": "2026-06-22",
+      "end": "2026-06-23",
+      "status": "approved",
+      "note": "2주 내 예정 휴가 (개인 사유)"
+    },
+    {
+      "id": "L-007",
+      "member": "taekyung-oh",
+      "type": "annual",
+      "unit": "half",
+      "days": 0.5,
+      "start": "2026-03-20",
+      "end": "2026-03-20",
+      "status": "approved",
+      "note": "오전 반차"
+    },
+    {
+      "id": "L-008",
+      "member": "taekyung-oh",
+      "type": "comp",
+      "unit": "full",
+      "days": 1.0,
+      "start": "2026-06-08",
+      "end": "2026-06-08",
+      "status": "approved",
+      "note": "보상휴가 (장애 대응 주말 근무 대체) — 연차 미차감"
+    },
+    {
+      "id": "L-009",
+      "member": "yuna-shin",
+      "type": "annual",
+      "unit": "full",
+      "days": 3.0,
+      "start": "2026-05-18",
+      "end": "2026-05-20",
+      "status": "approved",
+      "note": "봄 휴가"
+    },
+    {
+      "id": "L-010",
+      "member": "yuna-shin",
+      "type": "annual",
+      "unit": "half",
+      "days": 0.5,
+      "start": "2026-06-30",
+      "end": "2026-06-30",
+      "status": "requested",
+      "note": "2주 내 예정 오후 반차 (승인 대기)"
+    },
+    {
+      "id": "L-011",
+      "member": "yuna-shin",
+      "type": "family-event",
+      "unit": "full",
+      "days": 5.0,
+      "start": "2026-03-09",
+      "end": "2026-03-13",
+      "status": "approved",
+      "note": "경조사 휴가 (결혼) — 연차 미차감"
+    }
+  ]
+}

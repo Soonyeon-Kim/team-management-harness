@@ -1,0 +1,100 @@
+{
+  "assignments": [
+    {
+      "id": "A-001",
+      "member": "dohyun-kim",
+      "project": "△△ 공공 데이터 거버넌스 체계 수립",
+      "client": "△△ 공공",
+      "role": "PM / 총괄 컨설턴트",
+      "allocation": 60,
+      "start": "2026-03-02",
+      "end": null,
+      "status": "active",
+      "notes": "팀장 겸 PM. 나머지 capacity는 수주/팀 운영"
+    },
+    {
+      "id": "A-002",
+      "member": "dohyun-kim",
+      "project": "□□ 제조 데이터 성숙도 진단(단기)",
+      "client": "□□ 제조",
+      "role": "총괄 자문",
+      "allocation": 30,
+      "start": "2026-02-02",
+      "end": "2026-03-13",
+      "status": "ended",
+      "notes": "6주 단기 진단 — 종료. 후속 구축 사업으로 연결"
+    },
+    {
+      "id": "A-003",
+      "member": "seojun-lee",
+      "project": "○○ 금융 데이터 마트/ELT 파이프라인 구축",
+      "client": "○○ 금융",
+      "role": "기술 리드 / 데이터 엔지니어",
+      "allocation": 60,
+      "start": "2026-04-06",
+      "end": null,
+      "status": "active",
+      "notes": "Databricks 기반. 핵심 인력"
+    },
+    {
+      "id": "A-004",
+      "member": "seojun-lee",
+      "project": "□□ 제조 센서 데이터 플랫폼 구축",
+      "client": "□□ 제조",
+      "role": "데이터 엔지니어",
+      "allocation": 50,
+      "start": "2026-05-11",
+      "end": null,
+      "status": "active",
+      "notes": "동시 투입 — 합산 110%로 과투입(overallocation). 리소스 재배분 검토 필요"
+    },
+    {
+      "id": "A-005",
+      "member": "jiwoo-park",
+      "project": "○○ 금융 임원 대시보드/BI 구축",
+      "client": "○○ 금융",
+      "role": "BI 컨설턴트",
+      "allocation": 80,
+      "start": "2026-04-06",
+      "end": null,
+      "status": "active",
+      "notes": "지표 정의·대시보드 구축 담당"
+    },
+    {
+      "id": "A-006",
+      "member": "jiwoo-park",
+      "project": "△△ 공공 현황분석 인터뷰 지원(단기)",
+      "client": "△△ 공공",
+      "role": "분석 지원",
+      "allocation": 20,
+      "start": "2026-05-04",
+      "end": "2026-06-05",
+      "status": "ended",
+      "notes": "현황분석 단계 지원 — 종료"
+    },
+    {
+      "id": "A-007",
+      "member": "yerin-choi",
+      "project": "○○ 금융 임원 대시보드/BI 구축",
+      "client": "○○ 금융",
+      "role": "분석 보조(OJT)",
+      "allocation": 50,
+      "start": "2026-05-04",
+      "end": null,
+      "status": "active",
+      "notes": "이서준/박지우 지도 하에 EDA 보조. 신입 투입률 낮게 유지"
+    },
+    {
+      "id": "A-008",
+      "member": "yerin-choi",
+      "project": "사내 신입 컨설팅 방법론 교육 과정",
+      "client": "사내",
+      "role": "교육 이수",
+      "allocation": 30,
+      "start": "2026-07-13",
+      "end": "2026-07-24",
+      "status": "planned",
+      "notes": "2주 집중 교육(가동 집계 대상 — 고객 대상 아님이나 역량 개발 투입). 예정"
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "tasks": [
+    {
+      "id": "T-001",
+      "title": "△△ 공공 데이터 거버넌스 정책 최종안 제출",
+      "assignee": "dohyun-kim",
+      "status": "in-progress",
+      "priority": "high",
+      "due": "2026-06-30",
+      "created": "2026-05-20",
+      "updated": "2026-06-18",
+      "notes": "운영위 보고 전 최종 검토 단계"
+    },
+    {
+      "id": "T-002",
+      "title": "○○ 금융 데이터 마트 ELT 파이프라인 1차 구축",
+      "assignee": "seojun-lee",
+      "status": "in-progress",
+      "priority": "high",
+      "due": "2026-06-26",
+      "created": "2026-05-25",
+      "updated": "2026-06-17",
+      "notes": "Databricks 워크플로우 기반"
+    },
+    {
+      "id": "T-003",
+      "title": "○○ 금융 임원 대시보드 지표 정의서 검토 반영",
+      "assignee": "jiwoo-park",
+      "status": "todo",
+      "priority": "medium",
+      "due": "2026-07-03",
+      "created": "2026-06-10",
+      "updated": "2026-06-10",
+      "notes": "고객 피드백 2차 반영 대기"
+    },
+    {
+      "id": "T-004",
+      "title": "□□ 제조 센서 데이터 품질 점검 리포트 작성",
+      "assignee": "seojun-lee",
+      "status": "blocked",
+      "priority": "medium",
+      "due": "2026-06-22",
+      "created": "2026-05-30",
+      "updated": "2026-06-16",
+      "notes": "고객사 원천 데이터 접근 권한 지연으로 블록됨"
+    },
+    {
+      "id": "T-005",
+      "title": "△△ 공공 현황분석 인터뷰 회의록 정리 및 공유",
+      "assignee": "jiwoo-park",
+      "status": "done",
+      "priority": "low",
+      "due": "2026-06-05",
+      "created": "2026-05-28",
+      "updated": "2026-06-04",
+      "notes": "완료, 산출물 폴더 업로드"
+    },
+    {
+      "id": "T-006",
+      "title": "○○ 금융 EDA 보조 분석(고객 세그먼트) 초안",
+      "assignee": "yerin-choi",
+      "status": "in-progress",
+      "priority": "medium",
+      "due": "2026-06-12",
+      "created": "2026-05-29",
+      "updated": "2026-06-15",
+      "notes": "마감 경과 — 멘토 검수 지연으로 지연 중(overdue)"
+    },
+    {
+      "id": "T-007",
+      "title": "팀 분기 자격증 목표 및 교육 예산안 정리",
+      "assignee": "dohyun-kim",
+      "status": "todo",
+      "priority": "low",
+      "due": "2026-07-10",
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "notes": "분기 체크리스트 항목"
+    }
+  ]
+}

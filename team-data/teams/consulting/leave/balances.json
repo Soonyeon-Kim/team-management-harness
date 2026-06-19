@@ -1,0 +1,45 @@
+{
+  "year": 2026,
+  "balances": [
+    {
+      "member": "dohyun-kim",
+      "granted": 17,
+      "carryover": 2,
+      "used": 3.0,
+      "is_newcomer": false,
+      "newcomer_expiry": null,
+      "vacation_fund_used": 0,
+      "notes": "팀장. 가동률 높아 연차 사용 저조 — 여름 휴가(L-013) 승인 시 사용률 개선 예정"
+    },
+    {
+      "member": "seojun-lee",
+      "granted": 16,
+      "carryover": 1,
+      "used": 11.0,
+      "is_newcomer": false,
+      "newcomer_expiry": null,
+      "vacation_fund_used": 450000,
+      "notes": "연차 11일 사용으로 휴가비(연 100만원) 신청 자격 충족 — 일부 사용함"
+    },
+    {
+      "member": "jiwoo-park",
+      "granted": 15,
+      "carryover": 0,
+      "used": 2.0,
+      "is_newcomer": false,
+      "newcomer_expiry": null,
+      "vacation_fund_used": 0,
+      "notes": "연차 사용 저조(누적률 높음) — 미사용 독려 대상. 리프레시 휴가(L-014) 신청 중"
+    },
+    {
+      "member": "yerin-choi",
+      "granted": 11,
+      "carryover": 0,
+      "used": 2.5,
+      "is_newcomer": true,
+      "newcomer_expiry": "2026-03-31",
+      "vacation_fund_used": 0,
+      "notes": "2025-08-01 입사 신입. 입사연도 월차 부여분, 신입 소멸(2026-03-31) 관리 대상이었음"
+    }
+  ]
+}

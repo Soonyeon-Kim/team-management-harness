@@ -1,0 +1,158 @@
+{
+  "leave": [
+    {
+      "id": "L-001",
+      "member": "dohyun-kim",
+      "type": "annual",
+      "unit": "full",
+      "days": 2.0,
+      "start": "2026-02-16",
+      "end": "2026-02-17",
+      "status": "approved",
+      "note": "설 연휴 연계 연차"
+    },
+    {
+      "id": "L-002",
+      "member": "dohyun-kim",
+      "type": "annual",
+      "unit": "full",
+      "days": 1.0,
+      "start": "2026-05-15",
+      "end": "2026-05-15",
+      "status": "approved",
+      "note": "가정의 달 연차"
+    },
+    {
+      "id": "L-003",
+      "member": "seojun-lee",
+      "type": "annual",
+      "unit": "full",
+      "days": 5.0,
+      "start": "2026-03-23",
+      "end": "2026-03-27",
+      "status": "approved",
+      "note": "봄 휴가(가족 여행)"
+    },
+    {
+      "id": "L-004",
+      "member": "seojun-lee",
+      "type": "annual",
+      "unit": "full",
+      "days": 3.0,
+      "start": "2026-04-29",
+      "end": "2026-05-01",
+      "status": "approved",
+      "note": "징검다리 연차"
+    },
+    {
+      "id": "L-005",
+      "member": "seojun-lee",
+      "type": "annual",
+      "unit": "full",
+      "days": 2.0,
+      "start": "2026-05-26",
+      "end": "2026-05-27",
+      "status": "approved",
+      "note": "휴식"
+    },
+    {
+      "id": "L-006",
+      "member": "seojun-lee",
+      "type": "annual",
+      "unit": "half",
+      "days": 0.5,
+      "start": "2026-06-05",
+      "end": "2026-06-05",
+      "status": "approved",
+      "note": "오후 반차"
+    },
+    {
+      "id": "L-007",
+      "member": "seojun-lee",
+      "type": "annual",
+      "unit": "half",
+      "days": 0.5,
+      "start": "2026-06-26",
+      "end": "2026-06-26",
+      "status": "approved",
+      "note": "오전 반차"
+    },
+    {
+      "id": "L-008",
+      "member": "jiwoo-park",
+      "type": "annual",
+      "unit": "full",
+      "days": 2.0,
+      "start": "2026-01-29",
+      "end": "2026-01-30",
+      "status": "approved",
+      "note": "설 연휴 연계"
+    },
+    {
+      "id": "L-009",
+      "member": "jiwoo-park",
+      "type": "comp",
+      "unit": "full",
+      "days": 1.0,
+      "start": "2026-04-13",
+      "end": "2026-04-13",
+      "status": "approved",
+      "note": "프로젝트 주말 근무 보상휴가(연차 미차감)"
+    },
+    {
+      "id": "L-010",
+      "member": "yerin-choi",
+      "type": "annual",
+      "unit": "full",
+      "days": 2.0,
+      "start": "2026-03-19",
+      "end": "2026-03-20",
+      "status": "approved",
+      "note": "신입 부여 월차 사용"
+    },
+    {
+      "id": "L-011",
+      "member": "yerin-choi",
+      "type": "annual",
+      "unit": "half",
+      "days": 0.5,
+      "start": "2026-06-22",
+      "end": "2026-06-22",
+      "status": "approved",
+      "note": "오후 반차(병원)"
+    },
+    {
+      "id": "L-012",
+      "member": "yerin-choi",
+      "type": "family-event",
+      "unit": "full",
+      "days": 1.0,
+      "start": "2026-05-08",
+      "end": "2026-05-08",
+      "status": "approved",
+      "note": "경조사(연차 미차감)"
+    },
+    {
+      "id": "L-013",
+      "member": "dohyun-kim",
+      "type": "annual",
+      "unit": "full",
+      "days": 3.0,
+      "start": "2026-06-29",
+      "end": "2026-07-01",
+      "status": "requested",
+      "note": "여름 휴가 신청(승인 대기 — used 미반영)"
+    },
+    {
+      "id": "L-014",
+      "member": "jiwoo-park",
+      "type": "annual",
+      "unit": "full",
+      "days": 2.0,
+      "start": "2026-06-24",
+      "end": "2026-06-25",
+      "status": "requested",
+      "note": "리프레시 휴가 신청(승인 대기)"
+    }
+  ]
+}

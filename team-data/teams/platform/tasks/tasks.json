@@ -1,0 +1,81 @@
+{
+  "tasks": [
+    {
+      "id": "T-001",
+      "title": "○○ 금융 데이터 플랫폼 장애 포스트모템 작성 및 런북화",
+      "assignee": "jihoon-han",
+      "status": "in-progress",
+      "priority": "high",
+      "due": "2026-06-25",
+      "created": "2026-06-12",
+      "updated": "2026-06-18",
+      "notes": "MTTR 단축 후속. 위임 가능한 런북으로 정리해 팀원 인계 목표."
+    },
+    {
+      "id": "T-002",
+      "title": "□□ 게임 실시간 파이프라인 Airflow DAG 리팩터링",
+      "assignee": "taekyung-oh",
+      "status": "in-progress",
+      "priority": "high",
+      "due": "2026-06-30",
+      "created": "2026-06-05",
+      "updated": "2026-06-17",
+      "notes": "백필 성능 이슈 대응. K8s 배포 부분은 팀장 지원 필요."
+    },
+    {
+      "id": "T-003",
+      "title": "○○ 금융 DW 마이그레이션 검증 쿼리 세트 작성",
+      "assignee": "taekyung-oh",
+      "status": "blocked",
+      "priority": "medium",
+      "due": "2026-06-22",
+      "created": "2026-06-03",
+      "updated": "2026-06-16",
+      "notes": "고객사 원본 DB 접근 권한 승인 지연으로 blocked. 인프라팀 권한 발급 대기."
+    },
+    {
+      "id": "T-004",
+      "title": "Terraform 모듈 표준화 (VPC/EKS 공통 모듈)",
+      "assignee": "yuna-shin",
+      "status": "todo",
+      "priority": "medium",
+      "due": "2026-07-10",
+      "created": "2026-06-10",
+      "updated": "2026-06-10",
+      "notes": "사내 IaC 표준화 1단계. Terraform Associate 학습과 연계."
+    },
+    {
+      "id": "T-005",
+      "title": "관측가능성 대시보드 표준 템플릿(Grafana) 1차 배포",
+      "assignee": "yuna-shin",
+      "status": "in-progress",
+      "priority": "high",
+      "due": "2026-06-26",
+      "created": "2026-06-08",
+      "updated": "2026-06-18",
+      "notes": "SLO 정의 3개 서비스와 함께 진행."
+    },
+    {
+      "id": "T-006",
+      "title": "△△ 물류 멀티클라우드 PoC FinOps 비용 분석 리포트",
+      "assignee": "jihoon-han",
+      "status": "todo",
+      "priority": "medium",
+      "due": "2026-06-15",
+      "created": "2026-05-28",
+      "updated": "2026-06-02",
+      "notes": "기한 경과(OVERDUE). 본인 가동률 과다로 착수 지연 — 우선순위 재조정 필요."
+    },
+    {
+      "id": "T-007",
+      "title": "신규 입사자용 클라우드 온보딩 가이드 업데이트",
+      "assignee": "yuna-shin",
+      "status": "done",
+      "priority": "low",
+      "due": "2026-05-30",
+      "created": "2026-05-15",
+      "updated": "2026-05-29",
+      "notes": "완료. 자동화 스크립트 링크 포함."
+    }
+  ]
+}

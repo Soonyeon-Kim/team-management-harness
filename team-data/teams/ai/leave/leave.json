@@ -1,0 +1,125 @@
+{
+  "leave": [
+    {
+      "id": "L-001",
+      "member": "minjae-jung",
+      "type": "annual",
+      "unit": "full",
+      "days": 3.0,
+      "start": "2026-02-16",
+      "end": "2026-02-18",
+      "status": "approved",
+      "note": "설 연휴 연계 가족 여행"
+    },
+    {
+      "id": "L-002",
+      "member": "minjae-jung",
+      "type": "annual",
+      "unit": "full",
+      "days": 5.0,
+      "start": "2026-05-04",
+      "end": "2026-05-08",
+      "status": "approved",
+      "note": "어린이날 연계 봄 휴가"
+    },
+    {
+      "id": "L-003",
+      "member": "minjae-jung",
+      "type": "annual",
+      "unit": "full",
+      "days": 3.0,
+      "start": "2026-06-29",
+      "end": "2026-07-01",
+      "status": "approved",
+      "note": "상반기 마감 후 재충전 (2주 내 예정)"
+    },
+    {
+      "id": "L-004",
+      "member": "minjae-jung",
+      "type": "annual",
+      "unit": "half",
+      "days": 0.5,
+      "start": "2026-04-10",
+      "end": "2026-04-10",
+      "status": "approved",
+      "note": "오후 반차 — 자녀 학교 행사"
+    },
+    {
+      "id": "L-005",
+      "member": "haneul-kang",
+      "type": "annual",
+      "unit": "full",
+      "days": 4.0,
+      "start": "2026-03-23",
+      "end": "2026-03-26",
+      "status": "approved",
+      "note": "봄 개인 휴가"
+    },
+    {
+      "id": "L-006",
+      "member": "haneul-kang",
+      "type": "annual",
+      "unit": "full",
+      "days": 2.0,
+      "start": "2026-07-13",
+      "end": "2026-07-14",
+      "status": "approved",
+      "note": "여름 휴가"
+    },
+    {
+      "id": "L-007",
+      "member": "haneul-kang",
+      "type": "comp",
+      "unit": "full",
+      "days": 1.0,
+      "start": "2026-06-22",
+      "end": "2026-06-22",
+      "status": "approved",
+      "note": "통신사 무중단 배포 야간 대응 보상휴가 (2주 내 예정, 연차 미차감)"
+    },
+    {
+      "id": "L-008",
+      "member": "haneul-kang",
+      "type": "annual",
+      "unit": "full",
+      "days": 2.0,
+      "start": "2026-09-21",
+      "end": "2026-09-22",
+      "status": "requested",
+      "note": "추석 연계 — 승인 대기 (used 미반영)"
+    },
+    {
+      "id": "L-009",
+      "member": "sohee-yoon",
+      "type": "annual",
+      "unit": "full",
+      "days": 1.0,
+      "start": "2026-05-15",
+      "end": "2026-05-15",
+      "status": "approved",
+      "note": "개인 사유"
+    },
+    {
+      "id": "L-010",
+      "member": "sohee-yoon",
+      "type": "annual",
+      "unit": "full",
+      "days": 1.0,
+      "start": "2026-06-26",
+      "end": "2026-06-26",
+      "status": "approved",
+      "note": "징검다리 휴가 (2주 내 예정)"
+    },
+    {
+      "id": "L-011",
+      "member": "sohee-yoon",
+      "type": "family-event",
+      "unit": "full",
+      "days": 5.0,
+      "start": "2026-04-06",
+      "end": "2026-04-10",
+      "status": "approved",
+      "note": "본인 결혼 경조사 휴가 (연차 미차감)"
+    }
+  ]
+}

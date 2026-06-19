@@ -1,5 +1,6 @@
-# 팀원 개인정보 데이터 — 로컬 전용 (커밋 금지)
-team-data/
+# 팀 데이터 — 산출물 리포트(_reports/)는 실제 인사정보가 들어갈 수 있어 로컬 전용(커밋 금지).
+# 가상 데모 데이터(teams/·calendar/·checklist.md)는 추적한다.
+team-data/_reports/
 
 # Claude Code 로컬 설정
 .claude/settings.local.json
